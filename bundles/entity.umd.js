@@ -65,8 +65,11 @@ function createStateOperator(mutator) {
             ids: state.ids.slice(),
             entities: Object.assign({}, state.entities),
         };
-        mutator(arg, clonedEntityState);
-        return Object.assign({}, state, clonedEntityState);
+        var /** @type {?} */ didMutate = mutator(arg, clonedEntityState);
+        if (didMutate) {
+            return Object.assign({}, state, clonedEntityState);
+        }
+        return state;
     };
 }
 /**
@@ -82,12 +85,12 @@ function createUnsortedStateAdapter(selectId) {
      */
     function addOneMutably(entity, state) {
         var /** @type {?} */ key = selectId(entity);
-        var /** @type {?} */ index = state.ids.indexOf(key);
-        if (index !== -1) {
-            return;
+        if (key in state.entities) {
+            return false;
         }
         state.ids.push(key);
         state.entities[key] = entity;
+        return true;
     }
     /**
      * @param {?} entities
@@ -95,9 +98,11 @@ function createUnsortedStateAdapter(selectId) {
      * @return {?}
      */
     function addManyMutably(entities, state) {
+        var /** @type {?} */ didMutate = false;
         for (var /** @type {?} */ index in entities) {
-            addOneMutably(entities[index], state);
+            didMutate = addOneMutably(entities[index], state) || didMutate;
         }
+        return didMutate;
     }
     /**
      * @param {?} entities
@@ -108,6 +113,7 @@ function createUnsortedStateAdapter(selectId) {
         state.ids = [];
         state.entities = {};
         addManyMutably(entities, state);
+        return true;
     }
     /**
      * @param {?} key
@@ -117,10 +123,11 @@ function createUnsortedStateAdapter(selectId) {
     function removeOneMutably(key, state) {
         var /** @type {?} */ index = state.ids.indexOf(key);
         if (index === -1) {
-            return;
+            return false;
         }
         state.ids.splice(index, 1);
         delete state.entities[key];
+        return true;
     }
     /**
      * @param {?} keys
@@ -128,9 +135,11 @@ function createUnsortedStateAdapter(selectId) {
      * @return {?}
      */
     function removeManyMutably(keys, state) {
+        var /** @type {?} */ didMutate = false;
         for (var /** @type {?} */ index in keys) {
-            removeOneMutably(keys[index], state);
+            didMutate = removeOneMutably(keys[index], state) || didMutate;
         }
+        return didMutate;
     }
     /**
      * @template S
@@ -151,7 +160,7 @@ function createUnsortedStateAdapter(selectId) {
     function updateOneMutably(update, state) {
         var /** @type {?} */ index = state.ids.indexOf(update.id);
         if (index === -1) {
-            return;
+            return false;
         }
         var /** @type {?} */ original = state.entities[update.id];
         var /** @type {?} */ updated = Object.assign({}, original, update.changes);
@@ -161,6 +170,7 @@ function createUnsortedStateAdapter(selectId) {
             delete state.entities[update.id];
         }
         state.entities[newKey] = updated;
+        return true;
     }
     /**
      * @param {?} updates
@@ -168,9 +178,11 @@ function createUnsortedStateAdapter(selectId) {
      * @return {?}
      */
     function updateManyMutably(updates, state) {
+        var /** @type {?} */ didMutate = false;
         for (var /** @type {?} */ index in updates) {
-            updateOneMutably(updates[index], state);
+            didMutate = updateOneMutably(updates[index], state) || didMutate;
         }
+        return didMutate;
     }
     return {
         removeAll: removeAll,
@@ -198,13 +210,13 @@ function createSortedStateAdapter(selectId, sort) {
      */
     function addOneMutably(entity, state) {
         var /** @type {?} */ key = selectId(entity);
-        var /** @type {?} */ index = state.ids.indexOf(key);
-        if (index !== -1) {
-            return;
+        if (key in state.entities) {
+            return false;
         }
         var /** @type {?} */ insertAt = findTargetIndex(state, entity);
         state.ids.splice(insertAt, 0, key);
         state.entities[key] = entity;
+        return true;
     }
     /**
      * @param {?} newModels
@@ -212,9 +224,11 @@ function createSortedStateAdapter(selectId, sort) {
      * @return {?}
      */
     function addManyMutably(newModels, state) {
+        var /** @type {?} */ didMutate = false;
         for (var /** @type {?} */ index in newModels) {
-            addOneMutably(newModels[index], state);
+            didMutate = addOneMutably(newModels[index], state) || didMutate;
         }
+        return didMutate;
     }
     /**
      * @param {?} models
@@ -229,6 +243,7 @@ function createSortedStateAdapter(selectId, sort) {
             state.entities[id] = model;
             return id;
         });
+        return true;
     }
     /**
      * @param {?} update
@@ -236,9 +251,8 @@ function createSortedStateAdapter(selectId, sort) {
      * @return {?}
      */
     function updateOneMutably(update, state) {
-        var /** @type {?} */ index = state.ids.indexOf(update.id);
-        if (index === -1) {
-            return;
+        if (!(update.id in state.entities)) {
+            return false;
         }
         var /** @type {?} */ original = state.entities[update.id];
         var /** @type {?} */ updated = Object.assign({}, original, update.changes);
@@ -247,17 +261,20 @@ function createSortedStateAdapter(selectId, sort) {
         if (result === 0) {
             if (updatedKey !== update.id) {
                 delete state.entities[update.id];
-                state.ids[index] = updatedKey;
+                var /** @type {?} */ index_1 = state.ids.indexOf(update.id);
+                state.ids[index_1] = updatedKey;
             }
             state.entities[updatedKey] = updated;
-            return;
+            return true;
         }
+        var /** @type {?} */ index = state.ids.indexOf(update.id);
         state.ids.splice(index, 1);
         state.ids.splice(findTargetIndex(state, updated), 0, updatedKey);
         if (updatedKey !== update.id) {
             delete state.entities[update.id];
         }
         state.entities[updatedKey] = updated;
+        return true;
     }
     /**
      * @param {?} updates
@@ -265,40 +282,29 @@ function createSortedStateAdapter(selectId, sort) {
      * @return {?}
      */
     function updateManyMutably(updates, state) {
+        var /** @type {?} */ didMutate = false;
         for (var /** @type {?} */ index in updates) {
-            updateOneMutably(updates[index], state);
+            didMutate = updateOneMutably(updates[index], state) || didMutate;
         }
+        return didMutate;
     }
     /**
      * @param {?} state
      * @param {?} model
-     * @param {?=} left
-     * @param {?=} right
      * @return {?}
      */
-    function findTargetIndex(state, model, left, right) {
-        if (left === void 0) { left = 0; }
-        if (right === void 0) { right = state.ids.length - 1; }
-        if (right === -1) {
+    function findTargetIndex(state, model) {
+        if (state.ids.length === 0) {
             return 0;
         }
-        var /** @type {?} */ middle;
-        while (true) {
-            middle = Math.floor((left + right) / 2);
-            var /** @type {?} */ result = sort(state.entities[state.ids[middle]], model);
-            if (result === 0) {
-                return middle;
-            }
-            else if (result < 0) {
-                left = middle + 1;
-            }
-            else {
-                right = middle - 1;
-            }
-            if (left > right) {
-                return state.ids.length - 1;
+        for (var /** @type {?} */ i = 0; i < state.ids.length; i++) {
+            var /** @type {?} */ entity = state.entities[state.ids[i]];
+            var /** @type {?} */ isSmaller = sort(model, entity) < 0;
+            if (isSmaller) {
+                return i;
             }
         }
+        return state.ids.length - 1;
     }
     return {
         removeOne: removeOne,

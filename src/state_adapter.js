@@ -9,8 +9,11 @@ export function createStateOperator(mutator) {
             ids: [...state.ids],
             entities: Object.assign({}, state.entities),
         };
-        mutator(arg, clonedEntityState);
-        return Object.assign({}, state, clonedEntityState);
+        const /** @type {?} */ didMutate = mutator(arg, clonedEntityState);
+        if (didMutate) {
+            return Object.assign({}, state, clonedEntityState);
+        }
+        return state;
     };
 }
 //# sourceMappingURL=state_adapter.js.map
