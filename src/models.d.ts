@@ -17,7 +17,7 @@ export interface EntityState<T> {
 }
 export interface EntityDefinition<T> {
     selectId: IdSelector<T>;
-    sort: false | Comparer<T>;
+    sortComparer: false | Comparer<T>;
 }
 export interface EntityStateAdapter<T> {
     addOne<S extends EntityState<T>>(entity: T, state: S): S;

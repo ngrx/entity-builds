@@ -8,11 +8,11 @@ import { createUnsortedStateAdapter } from './unsorted_state_adapter';
  * @return {?}
  */
 export function createEntityAdapter(options) {
-    const { selectId, sort } = Object.assign({ sort: false }, options);
+    const { selectId, sortComparer } = Object.assign({ sortComparer: false }, options);
     const /** @type {?} */ stateFactory = createInitialStateFactory();
     const /** @type {?} */ selectorsFactory = createSelectorsFactory();
-    const /** @type {?} */ stateAdapter = sort
-        ? createSortedStateAdapter(selectId, sort)
+    const /** @type {?} */ stateAdapter = sortComparer
+        ? createSortedStateAdapter(selectId, sortComparer)
         : createUnsortedStateAdapter(selectId);
     return Object.assign({}, stateFactory, selectorsFactory, stateAdapter);
 }
