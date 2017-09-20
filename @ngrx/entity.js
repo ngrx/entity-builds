@@ -319,11 +319,11 @@ function createSortedStateAdapter(selectId, sort) {
 
 /**
  * @template T
- * @param {?} options
+ * @param {?=} options
  * @return {?}
  */
-function createEntityAdapter(options) {
-    const { selectId, sortComparer } = Object.assign({ sortComparer: false }, options);
+function createEntityAdapter(options = {}) {
+    const { selectId, sortComparer } = Object.assign({ sortComparer: false, selectId: (instance) => instance.id }, options);
     const /** @type {?} */ stateFactory = createInitialStateFactory();
     const /** @type {?} */ selectorsFactory = createSelectorsFactory();
     const /** @type {?} */ stateAdapter = sortComparer

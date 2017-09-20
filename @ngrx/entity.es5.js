@@ -314,11 +314,12 @@ function createSortedStateAdapter(selectId, sort) {
 }
 /**
  * @template T
- * @param {?} options
+ * @param {?=} options
  * @return {?}
  */
 function createEntityAdapter(options) {
-    var _a = Object.assign({ sortComparer: false }, options), selectId = _a.selectId, sortComparer = _a.sortComparer;
+    if (options === void 0) { options = {}; }
+    var _a = Object.assign({ sortComparer: false, selectId: function (instance) { return instance.id; } }, options), selectId = _a.selectId, sortComparer = _a.sortComparer;
     var /** @type {?} */ stateFactory = createInitialStateFactory();
     var /** @type {?} */ selectorsFactory = createSelectorsFactory();
     var /** @type {?} */ stateAdapter = sortComparer

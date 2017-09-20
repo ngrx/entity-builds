@@ -4,11 +4,11 @@ import { createSortedStateAdapter } from './sorted_state_adapter';
 import { createUnsortedStateAdapter } from './unsorted_state_adapter';
 /**
  * @template T
- * @param {?} options
+ * @param {?=} options
  * @return {?}
  */
-export function createEntityAdapter(options) {
-    const { selectId, sortComparer } = Object.assign({ sortComparer: false }, options);
+export function createEntityAdapter(options = {}) {
+    const { selectId, sortComparer } = Object.assign({ sortComparer: false, selectId: (instance) => instance.id }, options);
     const /** @type {?} */ stateFactory = createInitialStateFactory();
     const /** @type {?} */ selectorsFactory = createSelectorsFactory();
     const /** @type {?} */ stateAdapter = sortComparer
