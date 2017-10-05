@@ -1,8 +1,8 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store')) :
 	typeof define === 'function' && define.amd ? define(['exports', '@ngrx/store'], factory) :
-	(factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = global.ngrx.entity || {}),global.ngrx.store));
-}(this, (function (exports,_ngrx_store) { 'use strict';
+	(factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}),global.ngrx.store));
+}(this, (function (exports,store) { 'use strict';
 
 /**
  * @template V
@@ -43,13 +43,13 @@ function createSelectorsFactory() {
         getSelectors: function (selectState) {
             var /** @type {?} */ selectIds = function (state) { return state.ids; };
             var /** @type {?} */ selectEntities = function (state) { return state.entities; };
-            var /** @type {?} */ selectAll = _ngrx_store.createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return entities[id]; }); });
-            var /** @type {?} */ selectTotal = _ngrx_store.createSelector(selectIds, function (ids) { return ids.length; });
+            var /** @type {?} */ selectAll = store.createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return entities[id]; }); });
+            var /** @type {?} */ selectTotal = store.createSelector(selectIds, function (ids) { return ids.length; });
             return {
-                selectIds: _ngrx_store.createSelector(selectState, selectIds),
-                selectEntities: _ngrx_store.createSelector(selectState, selectEntities),
-                selectAll: _ngrx_store.createSelector(selectState, selectAll),
-                selectTotal: _ngrx_store.createSelector(selectState, selectTotal),
+                selectIds: store.createSelector(selectState, selectIds),
+                selectEntities: store.createSelector(selectState, selectEntities),
+                selectAll: store.createSelector(selectState, selectAll),
+                selectTotal: store.createSelector(selectState, selectTotal),
             };
         },
     };
