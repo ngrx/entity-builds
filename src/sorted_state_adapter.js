@@ -68,7 +68,7 @@ export function createSortedStateAdapter(selectId, sort) {
         const /** @type {?} */ models = [];
         updates.forEach(update => takeUpdatedModel(models, update, state));
         if (models.length) {
-            state.ids = state.ids.filter(id => id in state.entities);
+            state.ids = state.ids.filter((id) => id in state.entities);
         }
         return merge(models, state);
     }

@@ -38,7 +38,7 @@ function createSelectorsFactory() {
         getSelectors: function (selectState) {
             var /** @type {?} */ selectIds = function (state) { return state.ids; };
             var /** @type {?} */ selectEntities = function (state) { return state.entities; };
-            var /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return entities[id]; }); });
+            var /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return ((entities))[id]; }); });
             var /** @type {?} */ selectTotal = createSelector(selectIds, function (ids) { return ids.length; });
             return {
                 selectIds: createSelector(selectState, selectIds),

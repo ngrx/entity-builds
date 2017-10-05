@@ -39,7 +39,7 @@ function createSelectorsFactory() {
         getSelectors(selectState) {
             const /** @type {?} */ selectIds = (state) => state.ids;
             const /** @type {?} */ selectEntities = (state) => state.entities;
-            const /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map(id => entities[id]));
+            const /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map((id) => ((entities))[id]));
             const /** @type {?} */ selectTotal = createSelector(selectIds, ids => ids.length);
             return {
                 selectIds: createSelector(selectState, selectIds),
@@ -131,7 +131,7 @@ function createUnsortedStateAdapter(selectId) {
             .filter(key => key in state.entities)
             .map(key => delete state.entities[key]).length > 0;
         if (didMutate) {
-            state.ids = state.ids.filter(id => id in state.entities);
+            state.ids = state.ids.filter((id) => id in state.entities);
         }
         return didMutate;
     }
@@ -181,7 +181,7 @@ function createUnsortedStateAdapter(selectId) {
             .filter(update => update.id in state.entities)
             .map(update => takeNewKey(newKeys, update, state)).length > 0;
         if (didMutate) {
-            state.ids = state.ids.map(id => newKeys[id] || id);
+            state.ids = state.ids.map((id) => newKeys[id] || id);
         }
         return didMutate;
     }
@@ -265,7 +265,7 @@ function createSortedStateAdapter(selectId, sort) {
         const /** @type {?} */ models = [];
         updates.forEach(update => takeUpdatedModel(models, update, state));
         if (models.length) {
-            state.ids = state.ids.filter(id => id in state.entities);
+            state.ids = state.ids.filter((id) => id in state.entities);
         }
         return merge(models, state);
     }

@@ -60,7 +60,7 @@ export function createUnsortedStateAdapter(selectId) {
             .filter(key => key in state.entities)
             .map(key => delete state.entities[key]).length > 0;
         if (didMutate) {
-            state.ids = state.ids.filter(id => id in state.entities);
+            state.ids = state.ids.filter((id) => id in state.entities);
         }
         return didMutate;
     }
@@ -110,7 +110,7 @@ export function createUnsortedStateAdapter(selectId) {
             .filter(update => update.id in state.entities)
             .map(update => takeNewKey(newKeys, update, state)).length > 0;
         if (didMutate) {
-            state.ids = state.ids.map(id => newKeys[id] || id);
+            state.ids = state.ids.map((id) => newKeys[id] || id);
         }
         return didMutate;
     }

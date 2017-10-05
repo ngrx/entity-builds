@@ -13,7 +13,7 @@ export function createSelectorsFactory() {
         getSelectors(selectState) {
             const /** @type {?} */ selectIds = (state) => state.ids;
             const /** @type {?} */ selectEntities = (state) => state.entities;
-            const /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map(id => entities[id]));
+            const /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map((id) => ((entities))[id]));
             const /** @type {?} */ selectTotal = createSelector(selectIds, ids => ids.length);
             return {
                 selectIds: createSelector(selectState, selectIds),

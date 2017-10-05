@@ -43,7 +43,7 @@ function createSelectorsFactory() {
         getSelectors: function (selectState) {
             var /** @type {?} */ selectIds = function (state) { return state.ids; };
             var /** @type {?} */ selectEntities = function (state) { return state.entities; };
-            var /** @type {?} */ selectAll = store.createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return entities[id]; }); });
+            var /** @type {?} */ selectAll = store.createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return ((entities))[id]; }); });
             var /** @type {?} */ selectTotal = store.createSelector(selectIds, function (ids) { return ids.length; });
             return {
                 selectIds: store.createSelector(selectState, selectIds),
