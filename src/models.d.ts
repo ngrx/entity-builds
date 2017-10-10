@@ -12,13 +12,12 @@ export declare type IdSelectorNum<T> = {
     (model: T): number;
 };
 export declare type IdSelector<T> = IdSelectorStr<T> | IdSelectorNum<T>;
-export declare type DictionaryStr<T> = {
-    [id: string]: T;
-};
 export declare type DictionaryNum<T> = {
     [id: number]: T;
 };
-export declare type Dictionary<T> = DictionaryStr<T> | DictionaryNum<T>;
+export declare abstract class Dictionary<T> implements DictionaryNum<T> {
+    [id: string]: T;
+}
 export declare type UpdateStr<T> = {
     id: string;
     changes: Partial<T>;
@@ -28,15 +27,10 @@ export declare type UpdateNum<T> = {
     changes: Partial<T>;
 };
 export declare type Update<T> = UpdateStr<T> | UpdateNum<T>;
-export interface EntityStateStr<T> {
-    ids: string[];
+export interface EntityState<T> {
+    ids: any[];
     entities: Dictionary<T>;
 }
-export interface EntityStateNum<T> {
-    ids: number[];
-    entities: Dictionary<T>;
-}
-export declare type EntityState<T> = EntityStateStr<T> | EntityStateNum<T>;
 export interface EntityDefinition<T> {
     selectId: IdSelector<T>;
     sortComparer: false | Comparer<T>;
