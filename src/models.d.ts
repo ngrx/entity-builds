@@ -62,5 +62,6 @@ export declare type EntitySelectors<T, V> = EntitySelectorsNum<T, V> | EntitySel
 export interface EntityAdapter<T> extends EntityStateAdapter<T> {
     getInitialState(): EntityState<T>;
     getInitialState<S extends object>(state: S): EntityState<T> & S;
+    getSelectors(): EntitySelectors<T, EntityState<T>>;
     getSelectors<V>(selectState: (state: V) => EntityState<T>): EntitySelectors<T, V>;
 }

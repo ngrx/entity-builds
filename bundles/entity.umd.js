@@ -34,25 +34,31 @@ function createInitialStateFactory() {
  * @return {?}
  */
 function createSelectorsFactory() {
-    return {
-        /**
-         * @template V
-         * @param {?} selectState
-         * @return {?}
-         */
-        getSelectors: function (selectState) {
-            var /** @type {?} */ selectIds = function (state) { return state.ids; };
-            var /** @type {?} */ selectEntities = function (state) { return state.entities; };
-            var /** @type {?} */ selectAll = store.createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return ((entities))[id]; }); });
-            var /** @type {?} */ selectTotal = store.createSelector(selectIds, function (ids) { return ids.length; });
+    /**
+     * @param {?=} selectState
+     * @return {?}
+     */
+    function getSelectors(selectState) {
+        var /** @type {?} */ selectIds = function (state) { return state.ids; };
+        var /** @type {?} */ selectEntities = function (state) { return state.entities; };
+        var /** @type {?} */ selectAll = store.createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return ((entities))[id]; }); });
+        var /** @type {?} */ selectTotal = store.createSelector(selectIds, function (ids) { return ids.length; });
+        if (!selectState) {
             return {
-                selectIds: store.createSelector(selectState, selectIds),
-                selectEntities: store.createSelector(selectState, selectEntities),
-                selectAll: store.createSelector(selectState, selectAll),
-                selectTotal: store.createSelector(selectState, selectTotal),
+                selectIds: selectIds,
+                selectEntities: selectEntities,
+                selectAll: selectAll,
+                selectTotal: selectTotal,
             };
-        },
-    };
+        }
+        return {
+            selectIds: store.createSelector(selectState, selectIds),
+            selectEntities: store.createSelector(selectState, selectEntities),
+            selectAll: store.createSelector(selectState, selectAll),
+            selectTotal: store.createSelector(selectState, selectTotal),
+        };
+    }
+    return { getSelectors: getSelectors };
 }
 /**
  * @template V, R
