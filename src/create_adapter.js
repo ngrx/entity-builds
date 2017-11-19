@@ -1,7 +1,11 @@
-import { createInitialStateFactory } from './entity_state';
-import { createSelectorsFactory } from './state_selectors';
-import { createSortedStateAdapter } from './sorted_state_adapter';
-import { createUnsortedStateAdapter } from './unsorted_state_adapter';
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+import { createInitialStateFactory } from "./entity_state";
+import { createSelectorsFactory } from "./state_selectors";
+import { createSortedStateAdapter } from "./sorted_state_adapter";
+import { createUnsortedStateAdapter } from "./unsorted_state_adapter";
 /**
  * @template T
  * @param {?=} options

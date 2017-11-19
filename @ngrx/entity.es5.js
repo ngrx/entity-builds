@@ -1,5 +1,9 @@
 import { createSelector } from '@ngrx/store';
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template V
  * @return {?}
  */
@@ -24,6 +28,10 @@ function createInitialStateFactory() {
     }
     return { getInitialState: getInitialState };
 }
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @template T
  * @return {?}
@@ -56,6 +64,10 @@ function createSelectorsFactory() {
     return { getSelectors: getSelectors };
 }
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template V, R
  * @param {?} mutator
  * @return {?}
@@ -73,6 +85,10 @@ function createStateOperator(mutator) {
         return state;
     };
 }
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @template T
  * @param {?} selectId
@@ -200,6 +216,10 @@ function createUnsortedStateAdapter(selectId) {
     };
 }
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template T
  * @param {?} selectId
  * @param {?} sort
@@ -321,6 +341,10 @@ function createSortedStateAdapter(selectId, sort) {
     };
 }
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template T
  * @param {?=} options
  * @return {?}
@@ -335,6 +359,18 @@ function createEntityAdapter(options) {
         : createUnsortedStateAdapter(selectId);
     return Object.assign({}, stateFactory, selectorsFactory, stateAdapter);
 }
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * Generated bundle index. Do not edit.
  */

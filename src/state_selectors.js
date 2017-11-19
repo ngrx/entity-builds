@@ -1,4 +1,8 @@
-import { createSelector } from '@ngrx/store';
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+import { createSelector } from "@ngrx/store";
 /**
  * @template T
  * @return {?}
@@ -11,7 +15,7 @@ export function createSelectorsFactory() {
     function getSelectors(selectState) {
         const /** @type {?} */ selectIds = (state) => state.ids;
         const /** @type {?} */ selectEntities = (state) => state.entities;
-        const /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map((id) => ((entities))[id]));
+        const /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map((id) => (/** @type {?} */ (entities))[id]));
         const /** @type {?} */ selectTotal = createSelector(selectIds, ids => ids.length);
         if (!selectState) {
             return {

@@ -1,6 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template V
  * @return {?}
  */
@@ -26,6 +30,10 @@ function createInitialStateFactory() {
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template T
  * @return {?}
  */
@@ -37,7 +45,7 @@ function createSelectorsFactory() {
     function getSelectors(selectState) {
         const /** @type {?} */ selectIds = (state) => state.ids;
         const /** @type {?} */ selectEntities = (state) => state.entities;
-        const /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map((id) => ((entities))[id]));
+        const /** @type {?} */ selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map((id) => (/** @type {?} */ (entities))[id]));
         const /** @type {?} */ selectTotal = createSelector(selectIds, ids => ids.length);
         if (!selectState) {
             return {
@@ -58,6 +66,10 @@ function createSelectorsFactory() {
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template V, R
  * @param {?} mutator
  * @return {?}
@@ -76,6 +88,10 @@ function createStateOperator(mutator) {
     };
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @template T
  * @param {?} selectId
@@ -204,6 +220,10 @@ function createUnsortedStateAdapter(selectId) {
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template T
  * @param {?} selectId
  * @param {?} sort
@@ -326,6 +346,10 @@ function createSortedStateAdapter(selectId, sort) {
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @template T
  * @param {?=} options
  * @return {?}
@@ -340,6 +364,20 @@ function createEntityAdapter(options = {}) {
     return Object.assign({}, stateFactory, selectorsFactory, stateAdapter);
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * Generated bundle index. Do not edit.
  */

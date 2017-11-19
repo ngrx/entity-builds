@@ -1,4 +1,8 @@
-import { createStateOperator } from './state_adapter';
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+import { createStateOperator } from "./state_adapter";
 /**
  * @template T
  * @param {?} selectId
