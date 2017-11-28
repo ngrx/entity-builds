@@ -72,6 +72,15 @@ function createSelectorsFactory() {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+/** @enum {number} */
+var DidMutate = {
+    EntitiesOnly: 0,
+    Both: 1,
+    None: 2,
+};
+DidMutate[DidMutate.EntitiesOnly] = "EntitiesOnly";
+DidMutate[DidMutate.Both] = "Both";
+DidMutate[DidMutate.None] = "None";
 /**
  * @template V, R
  * @param {?} mutator
@@ -84,8 +93,11 @@ function createStateOperator(mutator) {
             entities: Object.assign({}, state.entities),
         };
         var /** @type {?} */ didMutate = mutator(arg, clonedEntityState);
-        if (didMutate) {
+        if (didMutate === DidMutate.Both) {
             return Object.assign({}, state, clonedEntityState);
+        }
+        if (didMutate === DidMutate.EntitiesOnly) {
+            return Object.assign({}, state, { entities: clonedEntityState.entities });
         }
         return state;
     };
@@ -108,11 +120,11 @@ function createUnsortedStateAdapter(selectId) {
     function addOneMutably(entity, state) {
         var /** @type {?} */ key = selectId(entity);
         if (key in state.entities) {
-            return false;
+            return DidMutate.None;
         }
         state.ids.push(key);
         state.entities[key] = entity;
-        return true;
+        return DidMutate.Both;
     }
     /**
      * @param {?} entities
@@ -122,9 +134,10 @@ function createUnsortedStateAdapter(selectId) {
     function addManyMutably(entities, state) {
         var /** @type {?} */ didMutate = false;
         for (var /** @type {?} */ index in entities) {
-            didMutate = addOneMutably(entities[index], state) || didMutate;
+            didMutate =
+                addOneMutably(entities[index], state) !== DidMutate.None || didMutate;
         }
-        return didMutate;
+        return didMutate ? DidMutate.Both : DidMutate.None;
     }
     /**
      * @param {?} entities
@@ -135,7 +148,7 @@ function createUnsortedStateAdapter(selectId) {
         state.ids = [];
         state.entities = {};
         addManyMutably(entities, state);
-        return true;
+        return DidMutate.Both;
     }
     /**
      * @param {?} key
@@ -157,7 +170,7 @@ function createUnsortedStateAdapter(selectId) {
         if (didMutate) {
             state.ids = state.ids.filter(function (id) { return id in state.entities; });
         }
-        return didMutate;
+        return didMutate ? DidMutate.Both : DidMutate.None;
     }
     /**
      * @template S
@@ -180,11 +193,13 @@ function createUnsortedStateAdapter(selectId) {
         var /** @type {?} */ original = state.entities[update.id];
         var /** @type {?} */ updated = Object.assign({}, original, update.changes);
         var /** @type {?} */ newKey = selectId(updated);
-        if (newKey !== update.id) {
+        var /** @type {?} */ hasNewKey = newKey !== update.id;
+        if (hasNewKey) {
             keys[update.id] = newKey;
             delete state.entities[update.id];
         }
         state.entities[newKey] = updated;
+        return hasNewKey;
     }
     /**
      * @param {?} update
@@ -201,13 +216,19 @@ function createUnsortedStateAdapter(selectId) {
      */
     function updateManyMutably(updates, state) {
         var /** @type {?} */ newKeys = {};
-        var /** @type {?} */ didMutate = updates
-            .filter(function (update) { return update.id in state.entities; })
-            .map(function (update) { return takeNewKey(newKeys, update, state); }).length > 0;
-        if (didMutate) {
-            state.ids = state.ids.map(function (id) { return newKeys[id] || id; });
+        updates = updates.filter(function (update) { return update.id in state.entities; });
+        var /** @type {?} */ didMutateEntities = updates.length > 0;
+        if (didMutateEntities) {
+            var /** @type {?} */ didMutateIds = updates.filter(function (update) { return takeNewKey(newKeys, update, state); }).length > 0;
+            if (didMutateIds) {
+                state.ids = state.ids.map(function (id) { return newKeys[id] || id; });
+                return DidMutate.Both;
+            }
+            else {
+                return DidMutate.EntitiesOnly;
+            }
         }
-        return didMutate;
+        return DidMutate.None;
     }
     return {
         removeAll: removeAll,
@@ -247,7 +268,13 @@ function createSortedStateAdapter(selectId, sort) {
      */
     function addManyMutably(newModels, state) {
         var /** @type {?} */ models = newModels.filter(function (model) { return !(selectId(model) in state.entities); });
-        return merge(models, state);
+        if (models.length === 0) {
+            return DidMutate.None;
+        }
+        else {
+            merge(models, state);
+            return DidMutate.Both;
+        }
     }
     /**
      * @param {?} models
@@ -258,7 +285,7 @@ function createSortedStateAdapter(selectId, sort) {
         state.entities = {};
         state.ids = [];
         addManyMutably(models, state);
-        return true;
+        return DidMutate.Both;
     }
     /**
      * @param {?} update
@@ -276,12 +303,14 @@ function createSortedStateAdapter(selectId, sort) {
      */
     function takeUpdatedModel(models, update, state) {
         if (!(update.id in state.entities)) {
-            return;
+            return false;
         }
         var /** @type {?} */ original = state.entities[update.id];
         var /** @type {?} */ updated = Object.assign({}, original, update.changes);
+        var /** @type {?} */ newKey = selectId(updated);
         delete state.entities[update.id];
         models.push(updated);
+        return newKey !== update.id;
     }
     /**
      * @param {?} updates
@@ -290,11 +319,32 @@ function createSortedStateAdapter(selectId, sort) {
      */
     function updateManyMutably(updates, state) {
         var /** @type {?} */ models = [];
-        updates.forEach(function (update) { return takeUpdatedModel(models, update, state); });
-        if (models.length) {
-            state.ids = state.ids.filter(function (id) { return id in state.entities; });
+        var /** @type {?} */ didMutateIds = updates.filter(function (update) { return takeUpdatedModel(models, update, state); }).length >
+            0;
+        if (models.length === 0) {
+            return DidMutate.None;
         }
-        return merge(models, state);
+        else {
+            var /** @type {?} */ originalIds_1 = state.ids;
+            var /** @type {?} */ updatedIndexes_1 = [];
+            state.ids = state.ids.filter(function (id, index) {
+                if (id in state.entities) {
+                    return true;
+                }
+                else {
+                    updatedIndexes_1.push(index);
+                    return false;
+                }
+            });
+            merge(models, state);
+            if (!didMutateIds &&
+                updatedIndexes_1.every(function (i) { return state.ids[i] === originalIds_1[i]; })) {
+                return DidMutate.EntitiesOnly;
+            }
+            else {
+                return DidMutate.Both;
+            }
+        }
     }
     /**
      * @param {?} models
@@ -302,9 +352,6 @@ function createSortedStateAdapter(selectId, sort) {
      * @return {?}
      */
     function merge(models, state) {
-        if (models.length === 0) {
-            return false;
-        }
         models.sort(sort);
         var /** @type {?} */ ids = [];
         var /** @type {?} */ i = 0;
@@ -332,7 +379,6 @@ function createSortedStateAdapter(selectId, sort) {
         models.forEach(function (model, i) {
             state.entities[selectId(model)] = model;
         });
-        return true;
     }
     return {
         removeOne: removeOne,

@@ -2,7 +2,7 @@
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-import { createStateOperator } from "./state_adapter";
+import { createStateOperator, DidMutate } from "./state_adapter";
 /**
  * @template T
  * @param {?} selectId
@@ -17,11 +17,11 @@ export function createUnsortedStateAdapter(selectId) {
     function addOneMutably(entity, state) {
         const /** @type {?} */ key = selectId(entity);
         if (key in state.entities) {
-            return false;
+            return DidMutate.None;
         }
         state.ids.push(key);
         state.entities[key] = entity;
-        return true;
+        return DidMutate.Both;
     }
     /**
      * @param {?} entities
@@ -31,9 +31,10 @@ export function createUnsortedStateAdapter(selectId) {
     function addManyMutably(entities, state) {
         let /** @type {?} */ didMutate = false;
         for (let /** @type {?} */ index in entities) {
-            didMutate = addOneMutably(entities[index], state) || didMutate;
+            didMutate =
+                addOneMutably(entities[index], state) !== DidMutate.None || didMutate;
         }
-        return didMutate;
+        return didMutate ? DidMutate.Both : DidMutate.None;
     }
     /**
      * @param {?} entities
@@ -44,7 +45,7 @@ export function createUnsortedStateAdapter(selectId) {
         state.ids = [];
         state.entities = {};
         addManyMutably(entities, state);
-        return true;
+        return DidMutate.Both;
     }
     /**
      * @param {?} key
@@ -66,7 +67,7 @@ export function createUnsortedStateAdapter(selectId) {
         if (didMutate) {
             state.ids = state.ids.filter((id) => id in state.entities);
         }
-        return didMutate;
+        return didMutate ? DidMutate.Both : DidMutate.None;
     }
     /**
      * @template S
@@ -89,11 +90,13 @@ export function createUnsortedStateAdapter(selectId) {
         const /** @type {?} */ original = state.entities[update.id];
         const /** @type {?} */ updated = Object.assign({}, original, update.changes);
         const /** @type {?} */ newKey = selectId(updated);
-        if (newKey !== update.id) {
+        const /** @type {?} */ hasNewKey = newKey !== update.id;
+        if (hasNewKey) {
             keys[update.id] = newKey;
             delete state.entities[update.id];
         }
         state.entities[newKey] = updated;
+        return hasNewKey;
     }
     /**
      * @param {?} update
@@ -110,13 +113,19 @@ export function createUnsortedStateAdapter(selectId) {
      */
     function updateManyMutably(updates, state) {
         const /** @type {?} */ newKeys = {};
-        const /** @type {?} */ didMutate = updates
-            .filter(update => update.id in state.entities)
-            .map(update => takeNewKey(newKeys, update, state)).length > 0;
-        if (didMutate) {
-            state.ids = state.ids.map((id) => newKeys[id] || id);
+        updates = updates.filter(update => update.id in state.entities);
+        const /** @type {?} */ didMutateEntities = updates.length > 0;
+        if (didMutateEntities) {
+            const /** @type {?} */ didMutateIds = updates.filter(update => takeNewKey(newKeys, update, state)).length > 0;
+            if (didMutateIds) {
+                state.ids = state.ids.map((id) => newKeys[id] || id);
+                return DidMutate.Both;
+            }
+            else {
+                return DidMutate.EntitiesOnly;
+            }
         }
-        return didMutate;
+        return DidMutate.None;
     }
     return {
         removeAll,

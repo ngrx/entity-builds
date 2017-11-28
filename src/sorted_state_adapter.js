@@ -2,7 +2,7 @@
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-import { createStateOperator } from "./state_adapter";
+import { createStateOperator, DidMutate } from "./state_adapter";
 import { createUnsortedStateAdapter } from "./unsorted_state_adapter";
 /**
  * @template T
@@ -27,7 +27,13 @@ export function createSortedStateAdapter(selectId, sort) {
      */
     function addManyMutably(newModels, state) {
         const /** @type {?} */ models = newModels.filter(model => !(selectId(model) in state.entities));
-        return merge(models, state);
+        if (models.length === 0) {
+            return DidMutate.None;
+        }
+        else {
+            merge(models, state);
+            return DidMutate.Both;
+        }
     }
     /**
      * @param {?} models
@@ -38,7 +44,7 @@ export function createSortedStateAdapter(selectId, sort) {
         state.entities = {};
         state.ids = [];
         addManyMutably(models, state);
-        return true;
+        return DidMutate.Both;
     }
     /**
      * @param {?} update
@@ -56,12 +62,14 @@ export function createSortedStateAdapter(selectId, sort) {
      */
     function takeUpdatedModel(models, update, state) {
         if (!(update.id in state.entities)) {
-            return;
+            return false;
         }
         const /** @type {?} */ original = state.entities[update.id];
         const /** @type {?} */ updated = Object.assign({}, original, update.changes);
+        const /** @type {?} */ newKey = selectId(updated);
         delete state.entities[update.id];
         models.push(updated);
+        return newKey !== update.id;
     }
     /**
      * @param {?} updates
@@ -70,11 +78,32 @@ export function createSortedStateAdapter(selectId, sort) {
      */
     function updateManyMutably(updates, state) {
         const /** @type {?} */ models = [];
-        updates.forEach(update => takeUpdatedModel(models, update, state));
-        if (models.length) {
-            state.ids = state.ids.filter((id) => id in state.entities);
+        const /** @type {?} */ didMutateIds = updates.filter(update => takeUpdatedModel(models, update, state)).length >
+            0;
+        if (models.length === 0) {
+            return DidMutate.None;
         }
-        return merge(models, state);
+        else {
+            const /** @type {?} */ originalIds = state.ids;
+            const /** @type {?} */ updatedIndexes = [];
+            state.ids = state.ids.filter((id, index) => {
+                if (id in state.entities) {
+                    return true;
+                }
+                else {
+                    updatedIndexes.push(index);
+                    return false;
+                }
+            });
+            merge(models, state);
+            if (!didMutateIds &&
+                updatedIndexes.every((i) => state.ids[i] === originalIds[i])) {
+                return DidMutate.EntitiesOnly;
+            }
+            else {
+                return DidMutate.Both;
+            }
+        }
     }
     /**
      * @param {?} models
@@ -82,9 +111,6 @@ export function createSortedStateAdapter(selectId, sort) {
      * @return {?}
      */
     function merge(models, state) {
-        if (models.length === 0) {
-            return false;
-        }
         models.sort(sort);
         const /** @type {?} */ ids = [];
         let /** @type {?} */ i = 0;
@@ -112,7 +138,6 @@ export function createSortedStateAdapter(selectId, sort) {
         models.forEach((model, i) => {
             state.entities[selectId(model)] = model;
         });
-        return true;
     }
     return {
         removeOne,

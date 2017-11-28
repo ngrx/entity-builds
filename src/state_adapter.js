@@ -2,6 +2,16 @@
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+/** @enum {number} */
+const DidMutate = {
+    EntitiesOnly: 0,
+    Both: 1,
+    None: 2,
+};
+export { DidMutate };
+DidMutate[DidMutate.EntitiesOnly] = "EntitiesOnly";
+DidMutate[DidMutate.Both] = "Both";
+DidMutate[DidMutate.None] = "None";
 /**
  * @template V, R
  * @param {?} mutator
@@ -14,8 +24,11 @@ export function createStateOperator(mutator) {
             entities: Object.assign({}, state.entities),
         };
         const /** @type {?} */ didMutate = mutator(arg, clonedEntityState);
-        if (didMutate) {
+        if (didMutate === DidMutate.Both) {
             return Object.assign({}, state, clonedEntityState);
+        }
+        if (didMutate === DidMutate.EntitiesOnly) {
+            return Object.assign({}, state, { entities: clonedEntityState.entities });
         }
         return state;
     };
