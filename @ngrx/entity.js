@@ -228,6 +228,44 @@ function createUnsortedStateAdapter(selectId) {
         }
         return DidMutate.None;
     }
+    /**
+     * @param {?} update
+     * @param {?} state
+     * @return {?}
+     */
+    function upsertOneMutably(update, state) {
+        return upsertManyMutably([update], state);
+    }
+    /**
+     * @param {?} updates
+     * @param {?} state
+     * @return {?}
+     */
+    function upsertManyMutably(updates, state) {
+        const /** @type {?} */ added = [];
+        const /** @type {?} */ updated = [];
+        for (let /** @type {?} */ index in updates) {
+            const /** @type {?} */ update = updates[index];
+            if (update.id in state.entities) {
+                updated.push(update);
+            }
+            else {
+                added.push(Object.assign({}, update.changes, { id: update.id }));
+            }
+        }
+        const /** @type {?} */ didMutateByUpdated = updateManyMutably(updated, state);
+        const /** @type {?} */ didMutateByAdded = addManyMutably(added, state);
+        switch (true) {
+            case didMutateByAdded === DidMutate.None &&
+                didMutateByUpdated === DidMutate.None:
+                return DidMutate.None;
+            case didMutateByAdded === DidMutate.Both ||
+                didMutateByUpdated === DidMutate.Both:
+                return DidMutate.Both;
+            default:
+                return DidMutate.EntitiesOnly;
+        }
+    }
     return {
         removeAll,
         addOne: createStateOperator(addOneMutably),
@@ -235,6 +273,8 @@ function createUnsortedStateAdapter(selectId) {
         addAll: createStateOperator(addAllMutably),
         updateOne: createStateOperator(updateOneMutably),
         updateMany: createStateOperator(updateManyMutably),
+        upsertOne: createStateOperator(upsertOneMutably),
+        upsertMany: createStateOperator(upsertManyMutably),
         removeOne: createStateOperator(removeOneMutably),
         removeMany: createStateOperator(removeManyMutably),
     };
@@ -346,6 +386,44 @@ function createSortedStateAdapter(selectId, sort) {
         }
     }
     /**
+     * @param {?} update
+     * @param {?} state
+     * @return {?}
+     */
+    function upsertOneMutably(update, state) {
+        return upsertManyMutably([update], state);
+    }
+    /**
+     * @param {?} updates
+     * @param {?} state
+     * @return {?}
+     */
+    function upsertManyMutably(updates, state) {
+        const /** @type {?} */ added = [];
+        const /** @type {?} */ updated = [];
+        for (let /** @type {?} */ index in updates) {
+            const /** @type {?} */ update = updates[index];
+            if (update.id in state.entities) {
+                updated.push(update);
+            }
+            else {
+                added.push(Object.assign({}, update.changes, { id: update.id }));
+            }
+        }
+        const /** @type {?} */ didMutateByUpdated = updateManyMutably(updated, state);
+        const /** @type {?} */ didMutateByAdded = addManyMutably(added, state);
+        switch (true) {
+            case didMutateByAdded === DidMutate.None &&
+                didMutateByUpdated === DidMutate.None:
+                return DidMutate.None;
+            case didMutateByAdded === DidMutate.Both ||
+                didMutateByUpdated === DidMutate.Both:
+                return DidMutate.Both;
+            default:
+                return DidMutate.EntitiesOnly;
+        }
+    }
+    /**
      * @param {?} models
      * @param {?} state
      * @return {?}
@@ -385,9 +463,11 @@ function createSortedStateAdapter(selectId, sort) {
         removeAll,
         addOne: createStateOperator(addOneMutably),
         updateOne: createStateOperator(updateOneMutably),
+        upsertOne: createStateOperator(upsertOneMutably),
         addAll: createStateOperator(addAllMutably),
         addMany: createStateOperator(addManyMutably),
         updateMany: createStateOperator(updateManyMutably),
+        upsertMany: createStateOperator(upsertManyMutably),
     };
 }
 
