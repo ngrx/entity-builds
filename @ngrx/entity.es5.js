@@ -128,9 +128,9 @@ function createUnsortedStateAdapter(selectId) {
      */
     function addManyMutably(entities, state) {
         var /** @type {?} */ didMutate = false;
-        for (var /** @type {?} */ index in entities) {
-            didMutate =
-                addOneMutably(entities[index], state) !== DidMutate.None || didMutate;
+        for (var _i = 0, entities_1 = entities; _i < entities_1.length; _i++) {
+            var entity = entities_1[_i];
+            didMutate = addOneMutably(entity, state) !== DidMutate.None || didMutate;
         }
         return didMutate ? DidMutate.Both : DidMutate.None;
     }
@@ -241,8 +241,8 @@ function createUnsortedStateAdapter(selectId) {
     function upsertManyMutably(updates, state) {
         var /** @type {?} */ added = [];
         var /** @type {?} */ updated = [];
-        for (var /** @type {?} */ index in updates) {
-            var /** @type {?} */ update = updates[index];
+        for (var _i = 0, updates_1 = updates; _i < updates_1.length; _i++) {
+            var update = updates_1[_i];
             if (update.id in state.entities) {
                 updated.push(update);
             }
