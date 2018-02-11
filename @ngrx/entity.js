@@ -399,8 +399,7 @@ function createSortedStateAdapter(selectId, sort) {
     function upsertManyMutably(updates, state) {
         const /** @type {?} */ added = [];
         const /** @type {?} */ updated = [];
-        for (let /** @type {?} */ index in updates) {
-            const /** @type {?} */ update = updates[index];
+        for (const /** @type {?} */ update of updates) {
             if (update.id in state.entities) {
                 updated.push(update);
             }
