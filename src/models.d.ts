@@ -56,6 +56,8 @@ export declare type EntitySelectors<T, V> = {
     selectTotal: (state: V) => number;
 };
 export interface EntityAdapter<T> extends EntityStateAdapter<T> {
+    selectId: IdSelector<T>;
+    sortComparer: false | Comparer<T>;
     getInitialState(): EntityState<T>;
     getInitialState<S extends object>(state: S): EntityState<T> & S;
     getSelectors(): EntitySelectors<T, EntityState<T>>;

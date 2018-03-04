@@ -488,7 +488,8 @@ function createEntityAdapter(options) {
     var /** @type {?} */ stateAdapter = sortComparer
         ? createSortedStateAdapter(selectId, sortComparer)
         : createUnsortedStateAdapter(selectId);
-    return Object.assign({}, stateFactory, selectorsFactory, stateAdapter);
+    return Object.assign({ selectId: selectId,
+        sortComparer: sortComparer }, stateFactory, selectorsFactory, stateAdapter);
 }
 
 exports.createEntityAdapter = createEntityAdapter;
