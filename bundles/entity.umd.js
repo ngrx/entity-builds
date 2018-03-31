@@ -231,28 +231,29 @@ function createUnsortedStateAdapter(selectId) {
         return DidMutate.None;
     }
     /**
-     * @param {?} update
+     * @param {?} entity
      * @param {?} state
      * @return {?}
      */
-    function upsertOneMutably(update, state) {
-        return upsertManyMutably([update], state);
+    function upsertOneMutably(entity, state) {
+        return upsertManyMutably([entity], state);
     }
     /**
-     * @param {?} updates
+     * @param {?} entities
      * @param {?} state
      * @return {?}
      */
-    function upsertManyMutably(updates, state) {
+    function upsertManyMutably(entities, state) {
         var /** @type {?} */ added = [];
         var /** @type {?} */ updated = [];
-        for (var _i = 0, updates_1 = updates; _i < updates_1.length; _i++) {
-            var update = updates_1[_i];
-            if (update.id in state.entities) {
-                updated.push(update);
+        for (var _i = 0, entities_2 = entities; _i < entities_2.length; _i++) {
+            var entity = entities_2[_i];
+            var /** @type {?} */ id = selectId(entity);
+            if (id in state.entities) {
+                updated.push({ id: id, changes: entity });
             }
             else {
-                added.push(Object.assign({}, update.changes, { id: update.id }));
+                added.push(entity);
             }
         }
         var /** @type {?} */ didMutateByUpdated = updateManyMutably(updated, state);
@@ -387,28 +388,29 @@ function createSortedStateAdapter(selectId, sort) {
         }
     }
     /**
-     * @param {?} update
+     * @param {?} entity
      * @param {?} state
      * @return {?}
      */
-    function upsertOneMutably(update, state) {
-        return upsertManyMutably([update], state);
+    function upsertOneMutably(entity, state) {
+        return upsertManyMutably([entity], state);
     }
     /**
-     * @param {?} updates
+     * @param {?} entities
      * @param {?} state
      * @return {?}
      */
-    function upsertManyMutably(updates, state) {
+    function upsertManyMutably(entities, state) {
         var /** @type {?} */ added = [];
         var /** @type {?} */ updated = [];
-        for (var _i = 0, updates_2 = updates; _i < updates_2.length; _i++) {
-            var update = updates_2[_i];
-            if (update.id in state.entities) {
-                updated.push(update);
+        for (var _i = 0, entities_3 = entities; _i < entities_3.length; _i++) {
+            var entity = entities_3[_i];
+            var /** @type {?} */ id = selectId(entity);
+            if (id in state.entities) {
+                updated.push({ id: id, changes: entity });
             }
             else {
-                added.push(Object.assign({}, update.changes, { id: update.id }));
+                added.push(entity);
             }
         }
         var /** @type {?} */ didMutateByUpdated = updateManyMutably(updated, state);

@@ -228,27 +228,28 @@ function createUnsortedStateAdapter(selectId) {
         return DidMutate.None;
     }
     /**
-     * @param {?} update
+     * @param {?} entity
      * @param {?} state
      * @return {?}
      */
-    function upsertOneMutably(update, state) {
-        return upsertManyMutably([update], state);
+    function upsertOneMutably(entity, state) {
+        return upsertManyMutably([entity], state);
     }
     /**
-     * @param {?} updates
+     * @param {?} entities
      * @param {?} state
      * @return {?}
      */
-    function upsertManyMutably(updates, state) {
+    function upsertManyMutably(entities, state) {
         const /** @type {?} */ added = [];
         const /** @type {?} */ updated = [];
-        for (const /** @type {?} */ update of updates) {
-            if (update.id in state.entities) {
-                updated.push(update);
+        for (const /** @type {?} */ entity of entities) {
+            const /** @type {?} */ id = selectId(entity);
+            if (id in state.entities) {
+                updated.push({ id, changes: entity });
             }
             else {
-                added.push(Object.assign({}, update.changes, { id: update.id }));
+                added.push(entity);
             }
         }
         const /** @type {?} */ didMutateByUpdated = updateManyMutably(updated, state);
@@ -384,27 +385,28 @@ function createSortedStateAdapter(selectId, sort) {
         }
     }
     /**
-     * @param {?} update
+     * @param {?} entity
      * @param {?} state
      * @return {?}
      */
-    function upsertOneMutably(update, state) {
-        return upsertManyMutably([update], state);
+    function upsertOneMutably(entity, state) {
+        return upsertManyMutably([entity], state);
     }
     /**
-     * @param {?} updates
+     * @param {?} entities
      * @param {?} state
      * @return {?}
      */
-    function upsertManyMutably(updates, state) {
+    function upsertManyMutably(entities, state) {
         const /** @type {?} */ added = [];
         const /** @type {?} */ updated = [];
-        for (const /** @type {?} */ update of updates) {
-            if (update.id in state.entities) {
-                updated.push(update);
+        for (const /** @type {?} */ entity of entities) {
+            const /** @type {?} */ id = selectId(entity);
+            if (id in state.entities) {
+                updated.push({ id, changes: entity });
             }
             else {
-                added.push(Object.assign({}, update.changes, { id: update.id }));
+                added.push(entity);
             }
         }
         const /** @type {?} */ didMutateByUpdated = updateManyMutably(updated, state);
