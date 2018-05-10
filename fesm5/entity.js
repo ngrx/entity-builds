@@ -3,11 +3,7 @@
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store')) :
-	typeof define === 'function' && define.amd ? define('@ngrx/entity', ['exports', '@ngrx/store'], factory) :
-	(factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}),global['@ngrx/store']));
-}(this, (function (exports,store) { 'use strict';
+import { createSelector } from '@ngrx/store';
 
 function getInitialEntityState() {
     return {
@@ -27,10 +23,10 @@ function createSelectorsFactory() {
     function getSelectors(selectState) {
         var selectIds = function (state) { return state.ids; };
         var selectEntities = function (state) { return state.entities; };
-        var selectAll = store.createSelector(selectIds, selectEntities, function (ids, entities) {
+        var selectAll = createSelector(selectIds, selectEntities, function (ids, entities) {
             return ids.map(function (id) { return entities[id]; });
         });
-        var selectTotal = store.createSelector(selectIds, function (ids) { return ids.length; });
+        var selectTotal = createSelector(selectIds, function (ids) { return ids.length; });
         if (!selectState) {
             return {
                 selectIds: selectIds,
@@ -40,10 +36,10 @@ function createSelectorsFactory() {
             };
         }
         return {
-            selectIds: store.createSelector(selectState, selectIds),
-            selectEntities: store.createSelector(selectState, selectEntities),
-            selectAll: store.createSelector(selectState, selectAll),
-            selectTotal: store.createSelector(selectState, selectTotal),
+            selectIds: createSelector(selectState, selectIds),
+            selectEntities: createSelector(selectState, selectEntities),
+            selectAll: createSelector(selectState, selectAll),
+            selectTotal: createSelector(selectState, selectTotal),
         };
     }
     return { getSelectors: getSelectors };
@@ -432,9 +428,5 @@ function createEntityAdapter(options) {
  * Generated bundle index. Do not edit.
  */
 
-exports.createEntityAdapter = createEntityAdapter;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
-//# sourceMappingURL=entity.umd.js.map
+export { createEntityAdapter };
+//# sourceMappingURL=entity.js.map

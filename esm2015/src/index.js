@@ -1,0 +1,7 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+export { createEntityAdapter } from './create_adapter';
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi9tb2R1bGVzL2VudGl0eS9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztBQUFBLE9BQU8sRUFBRSxtQkFBbUIsRUFBRSxNQUFNLGtCQUFrQixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IHsgY3JlYXRlRW50aXR5QWRhcHRlciB9IGZyb20gJy4vY3JlYXRlX2FkYXB0ZXInO1xuZXhwb3J0IHsgRW50aXR5U3RhdGUsIEVudGl0eUFkYXB0ZXIsIFVwZGF0ZSB9IGZyb20gJy4vbW9kZWxzJztcbiJdfQ==

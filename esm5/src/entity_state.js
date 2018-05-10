@@ -1,0 +1,15 @@
+export function getInitialEntityState() {
+    return {
+        ids: [],
+        entities: {},
+    };
+}
+export function createInitialStateFactory() {
+    function getInitialState(additionalState) {
+        if (additionalState === void 0) { additionalState = {}; }
+        return Object.assign(getInitialEntityState(), additionalState);
+    }
+    return { getInitialState: getInitialState };
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZW50aXR5X3N0YXRlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4vbW9kdWxlcy9lbnRpdHkvc3JjL2VudGl0eV9zdGF0ZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFFQSxNQUFNO0lBQ0osTUFBTSxDQUFDO1FBQ0wsR0FBRyxFQUFFLEVBQUU7UUFDUCxRQUFRLEVBQUUsRUFBRTtLQUNiLENBQUM7Q0FDSDtBQUVELE1BQU07SUFLSix5QkFBeUIsZUFBeUI7UUFBekIsZ0NBQUEsRUFBQSxvQkFBeUI7UUFDaEQsTUFBTSxDQUFDLE1BQU0sQ0FBQyxNQUFNLENBQUMscUJBQXFCLEVBQUUsRUFBRSxlQUFlLENBQUMsQ0FBQztLQUNoRTtJQUVELE1BQU0sQ0FBQyxFQUFFLGVBQWUsaUJBQUEsRUFBRSxDQUFDO0NBQzVCIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgRW50aXR5U3RhdGUgfSBmcm9tICcuL21vZGVscyc7XG5cbmV4cG9ydCBmdW5jdGlvbiBnZXRJbml0aWFsRW50aXR5U3RhdGU8Vj4oKTogRW50aXR5U3RhdGU8Vj4ge1xuICByZXR1cm4ge1xuICAgIGlkczogW10sXG4gICAgZW50aXRpZXM6IHt9LFxuICB9O1xufVxuXG5leHBvcnQgZnVuY3Rpb24gY3JlYXRlSW5pdGlhbFN0YXRlRmFjdG9yeTxWPigpIHtcbiAgZnVuY3Rpb24gZ2V0SW5pdGlhbFN0YXRlKCk6IEVudGl0eVN0YXRlPFY+O1xuICBmdW5jdGlvbiBnZXRJbml0aWFsU3RhdGU8UyBleHRlbmRzIG9iamVjdD4oXG4gICAgYWRkaXRpb25hbFN0YXRlOiBTXG4gICk6IEVudGl0eVN0YXRlPFY+ICYgUztcbiAgZnVuY3Rpb24gZ2V0SW5pdGlhbFN0YXRlKGFkZGl0aW9uYWxTdGF0ZTogYW55ID0ge30pOiBhbnkge1xuICAgIHJldHVybiBPYmplY3QuYXNzaWduKGdldEluaXRpYWxFbnRpdHlTdGF0ZSgpLCBhZGRpdGlvbmFsU3RhdGUpO1xuICB9XG5cbiAgcmV0dXJuIHsgZ2V0SW5pdGlhbFN0YXRlIH07XG59XG4iXX0=
