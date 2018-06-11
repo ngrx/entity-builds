@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.0.1+13.sha-21079d2
+ * @license NgRx 6.0.1+14.sha-2a267b6
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -418,6 +418,12 @@ function createEntityAdapter(options) {
         sortComparer: sortComparer }, stateFactory, selectorsFactory, stateAdapter);
 }
 
+var Dictionary = /** @class */ (function () {
+    function Dictionary() {
+    }
+    return Dictionary;
+}());
+
 /**
  * DO NOT EDIT
  *
@@ -428,5 +434,5 @@ function createEntityAdapter(options) {
  * Generated bundle index. Do not edit.
  */
 
-export { createEntityAdapter };
+export { createEntityAdapter, Dictionary };
 //# sourceMappingURL=entity.js.map
