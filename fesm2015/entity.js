@@ -1,9 +1,10 @@
 /**
- * @license NgRx 6.0.1+41.sha-28e2cc9
+ * @license NgRx 6.0.1+42.sha-8f05f1f
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 import { createSelector } from '@ngrx/store';
+import { isDevMode } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -111,6 +112,24 @@ function createStateOperator(mutator) {
  */
 /**
  * @template T
+ * @param {?} entity
+ * @param {?} selectId
+ * @return {?}
+ */
+function selectIdValue(entity, selectId) {
+    const /** @type {?} */ key = selectId(entity);
+    if (isDevMode() && key === undefined) {
+        console.warn('@ngrx/entity: The entity passed to the `selectId` implementation returned undefined.', 'You should probably provide your own `selectId` implementation.', 'The entity that was passed:', entity, 'The `selectId` implementation:', selectId.toString());
+    }
+    return key;
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @template T
  * @param {?} selectId
  * @return {?}
  */
@@ -121,7 +140,7 @@ function createUnsortedStateAdapter(selectId) {
      * @return {?}
      */
     function addOneMutably(entity, state) {
-        const /** @type {?} */ key = selectId(entity);
+        const /** @type {?} */ key = selectIdValue(entity, selectId);
         if (key in state.entities) {
             return DidMutate.None;
         }
@@ -194,7 +213,7 @@ function createUnsortedStateAdapter(selectId) {
     function takeNewKey(keys, update, state) {
         const /** @type {?} */ original = state.entities[update.id];
         const /** @type {?} */ updated = Object.assign({}, original, update.changes);
-        const /** @type {?} */ newKey = selectId(updated);
+        const /** @type {?} */ newKey = selectIdValue(updated, selectId);
         const /** @type {?} */ hasNewKey = newKey !== update.id;
         if (hasNewKey) {
             keys[update.id] = newKey;
@@ -249,7 +268,7 @@ function createUnsortedStateAdapter(selectId) {
         const /** @type {?} */ added = [];
         const /** @type {?} */ updated = [];
         for (const /** @type {?} */ entity of entities) {
-            const /** @type {?} */ id = selectId(entity);
+            const /** @type {?} */ id = selectIdValue(entity, selectId);
             if (id in state.entities) {
                 updated.push({ id, changes: entity });
             }
@@ -310,7 +329,7 @@ function createSortedStateAdapter(selectId, sort) {
      * @return {?}
      */
     function addManyMutably(newModels, state) {
-        const /** @type {?} */ models = newModels.filter(model => !(selectId(model) in state.entities));
+        const /** @type {?} */ models = newModels.filter(model => !(selectIdValue(model, selectId) in state.entities));
         if (models.length === 0) {
             return DidMutate.None;
         }
@@ -350,7 +369,7 @@ function createSortedStateAdapter(selectId, sort) {
         }
         const /** @type {?} */ original = state.entities[update.id];
         const /** @type {?} */ updated = Object.assign({}, original, update.changes);
-        const /** @type {?} */ newKey = selectId(updated);
+        const /** @type {?} */ newKey = selectIdValue(updated, selectId);
         delete state.entities[update.id];
         models.push(updated);
         return newKey !== update.id;
@@ -406,7 +425,7 @@ function createSortedStateAdapter(selectId, sort) {
         const /** @type {?} */ added = [];
         const /** @type {?} */ updated = [];
         for (const /** @type {?} */ entity of entities) {
-            const /** @type {?} */ id = selectId(entity);
+            const /** @type {?} */ id = selectIdValue(entity, selectId);
             if (id in state.entities) {
                 updated.push({ id, changes: entity });
             }
@@ -439,7 +458,7 @@ function createSortedStateAdapter(selectId, sort) {
         let /** @type {?} */ j = 0;
         while (i < models.length && j < state.ids.length) {
             const /** @type {?} */ model = models[i];
-            const /** @type {?} */ modelId = selectId(model);
+            const /** @type {?} */ modelId = selectIdValue(model, selectId);
             const /** @type {?} */ entityId = state.ids[j];
             const /** @type {?} */ entity = state.entities[entityId];
             if (sort(model, entity) <= 0) {

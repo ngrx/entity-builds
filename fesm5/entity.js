@@ -1,9 +1,10 @@
 /**
- * @license NgRx 6.0.1+41.sha-28e2cc9
+ * @license NgRx 6.0.1+42.sha-8f05f1f
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 import { createSelector } from '@ngrx/store';
+import { isDevMode } from '@angular/core';
 
 function getInitialEntityState() {
     return {
@@ -96,6 +97,14 @@ function createStateOperator(mutator) {
     };
 }
 
+function selectIdValue(entity, selectId) {
+    var key = selectId(entity);
+    if (isDevMode() && key === undefined) {
+        console.warn('@ngrx/entity: The entity passed to the `selectId` implementation returned undefined.', 'You should probably provide your own `selectId` implementation.', 'The entity that was passed:', entity, 'The `selectId` implementation:', selectId.toString());
+    }
+    return key;
+}
+
 var __values$1 = (undefined && undefined.__values) || function (o) {
     var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
     if (m) return m.call(o);
@@ -108,7 +117,7 @@ var __values$1 = (undefined && undefined.__values) || function (o) {
 };
 function createUnsortedStateAdapter(selectId) {
     function addOneMutably(entity, state) {
-        var key = selectId(entity);
+        var key = selectIdValue(entity, selectId);
         if (key in state.entities) {
             return DidMutate.None;
         }
@@ -161,7 +170,7 @@ function createUnsortedStateAdapter(selectId) {
     function takeNewKey(keys, update, state) {
         var original = state.entities[update.id];
         var updated = Object.assign({}, original, update.changes);
-        var newKey = selectId(updated);
+        var newKey = selectIdValue(updated, selectId);
         var hasNewKey = newKey !== update.id;
         if (hasNewKey) {
             keys[update.id] = newKey;
@@ -198,7 +207,7 @@ function createUnsortedStateAdapter(selectId) {
         try {
             for (var entities_2 = __values$1(entities), entities_2_1 = entities_2.next(); !entities_2_1.done; entities_2_1 = entities_2.next()) {
                 var entity = entities_2_1.value;
-                var id = selectId(entity);
+                var id = selectIdValue(entity, selectId);
                 if (id in state.entities) {
                     updated.push({ id: id, changes: entity });
                 }
@@ -258,7 +267,7 @@ function createSortedStateAdapter(selectId, sort) {
         return addManyMutably([entity], state);
     }
     function addManyMutably(newModels, state) {
-        var models = newModels.filter(function (model) { return !(selectId(model) in state.entities); });
+        var models = newModels.filter(function (model) { return !(selectIdValue(model, selectId) in state.entities); });
         if (models.length === 0) {
             return DidMutate.None;
         }
@@ -282,7 +291,7 @@ function createSortedStateAdapter(selectId, sort) {
         }
         var original = state.entities[update.id];
         var updated = Object.assign({}, original, update.changes);
-        var newKey = selectId(updated);
+        var newKey = selectIdValue(updated, selectId);
         delete state.entities[update.id];
         models.push(updated);
         return newKey !== update.id;
@@ -325,7 +334,7 @@ function createSortedStateAdapter(selectId, sort) {
         try {
             for (var entities_1 = __values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
                 var entity = entities_1_1.value;
-                var id = selectId(entity);
+                var id = selectIdValue(entity, selectId);
                 if (id in state.entities) {
                     updated.push({ id: id, changes: entity });
                 }
@@ -362,7 +371,7 @@ function createSortedStateAdapter(selectId, sort) {
         var j = 0;
         while (i < models.length && j < state.ids.length) {
             var model = models[i];
-            var modelId = selectId(model);
+            var modelId = selectIdValue(model, selectId);
             var entityId = state.ids[j];
             var entity = state.entities[entityId];
             if (sort(model, entity) <= 0) {
