@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+80.sha-a9bc070
+ * @license NgRx 6.1.0+81.sha-4e4c50f
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -273,6 +273,25 @@ function createUnsortedStateAdapter(selectId) {
         return DidMutate.None;
     }
     /**
+     * @param {?} map
+     * @param {?} state
+     * @return {?}
+     */
+    function mapMutably(map, state) {
+        /** @type {?} */
+        const changes = state.ids.reduce((changes, id) => {
+            /** @type {?} */
+            const change = map(state.entities[id]);
+            if (change !== state.entities[id]) {
+                changes.push({ id, changes: change });
+            }
+            return changes;
+        }, []);
+        /** @type {?} */
+        const updates = changes.filter(({ id }) => id in state.entities);
+        return updateManyMutably(updates, state);
+    }
+    /**
      * @param {?} entity
      * @param {?} state
      * @return {?}
@@ -326,6 +345,7 @@ function createUnsortedStateAdapter(selectId) {
         upsertMany: createStateOperator(upsertManyMutably),
         removeOne: createStateOperator(removeOneMutably),
         removeMany: createStateOperator(removeManyMutably),
+        map: createStateOperator(mapMutably),
     };
 }
 
@@ -443,6 +463,23 @@ function createSortedStateAdapter(selectId, sort) {
         }
     }
     /**
+     * @param {?} updatesOrMap
+     * @param {?} state
+     * @return {?}
+     */
+    function mapMutably(updatesOrMap, state) {
+        /** @type {?} */
+        const updates = state.ids.reduce((changes, id) => {
+            /** @type {?} */
+            const change = updatesOrMap(state.entities[id]);
+            if (change !== state.entities[id]) {
+                changes.push({ id, changes: change });
+            }
+            return changes;
+        }, []);
+        return updateManyMutably(updates, state);
+    }
+    /**
      * @param {?} entity
      * @param {?} state
      * @return {?}
@@ -537,6 +574,7 @@ function createSortedStateAdapter(selectId, sort) {
         addMany: createStateOperator(addManyMutably),
         updateMany: createStateOperator(updateManyMutably),
         upsertMany: createStateOperator(upsertManyMutably),
+        map: createStateOperator(mapMutably),
     };
 }
 

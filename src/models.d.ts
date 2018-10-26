@@ -20,6 +20,7 @@ export interface UpdateNum<T> {
 }
 export declare type Update<T> = UpdateStr<T> | UpdateNum<T>;
 export declare type Predicate<T> = (entity: T) => boolean;
+export declare type EntityMap<T> = (entity: T) => T;
 export interface EntityState<T> {
     ids: string[] | number[];
     entities: Dictionary<T>;
@@ -42,6 +43,7 @@ export interface EntityStateAdapter<T> {
     updateMany<S extends EntityState<T>>(updates: Update<T>[], state: S): S;
     upsertOne<S extends EntityState<T>>(entity: T, state: S): S;
     upsertMany<S extends EntityState<T>>(entities: T[], state: S): S;
+    map<S extends EntityState<T>>(map: EntityMap<T>, state: S): S;
 }
 export interface EntitySelectors<T, V> {
     selectIds: (state: V) => string[] | number[];

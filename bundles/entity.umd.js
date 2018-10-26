@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+80.sha-a9bc070
+ * @license NgRx 6.1.0+81.sha-4e4c50f
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -204,6 +204,20 @@
             }
             return DidMutate.None;
         }
+        function mapMutably(map, state) {
+            var changes = state.ids.reduce(function (changes, id) {
+                var change = map(state.entities[id]);
+                if (change !== state.entities[id]) {
+                    changes.push({ id: id, changes: change });
+                }
+                return changes;
+            }, []);
+            var updates = changes.filter(function (_a) {
+                var id = _a.id;
+                return id in state.entities;
+            });
+            return updateManyMutably(updates, state);
+        }
         function upsertOneMutably(entity, state) {
             return upsertManyMutably([entity], state);
         }
@@ -254,6 +268,7 @@
             upsertMany: createStateOperator(upsertManyMutably),
             removeOne: createStateOperator(removeOneMutably),
             removeMany: createStateOperator(removeManyMutably),
+            map: createStateOperator(mapMutably),
         };
     }
 
@@ -330,6 +345,16 @@
                     return DidMutate.Both;
                 }
             }
+        }
+        function mapMutably(updatesOrMap, state) {
+            var updates = state.ids.reduce(function (changes, id) {
+                var change = updatesOrMap(state.entities[id]);
+                if (change !== state.entities[id]) {
+                    changes.push({ id: id, changes: change });
+                }
+                return changes;
+            }, []);
+            return updateManyMutably(updates, state);
         }
         function upsertOneMutably(entity, state) {
             return upsertManyMutably([entity], state);
@@ -410,6 +435,7 @@
             addMany: createStateOperator(addManyMutably),
             updateMany: createStateOperator(updateManyMutably),
             upsertMany: createStateOperator(upsertManyMutably),
+            map: createStateOperator(mapMutably),
         };
     }
 
