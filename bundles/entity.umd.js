@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+70.sha-ab56aac
+ * @license NgRx 6.1.0+71.sha-d7daa2f
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -155,7 +155,10 @@
         function removeOneMutably(key, state) {
             return removeManyMutably([key], state);
         }
-        function removeManyMutably(keys, state) {
+        function removeManyMutably(keysOrPredicate, state) {
+            var keys = keysOrPredicate instanceof Array
+                ? keysOrPredicate
+                : state.ids.filter(function (key) { return keysOrPredicate(state.entities[key]); });
             var didMutate = keys
                 .filter(function (key) { return key in state.entities; })
                 .map(function (key) { return delete state.entities[key]; }).length > 0;

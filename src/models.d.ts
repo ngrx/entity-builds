@@ -19,6 +19,7 @@ export interface UpdateNum<T> {
     changes: Partial<T>;
 }
 export declare type Update<T> = UpdateStr<T> | UpdateNum<T>;
+export declare type Predicate<T> = (entity: T) => boolean;
 export interface EntityState<T> {
     ids: string[] | number[];
     entities: Dictionary<T>;
@@ -35,6 +36,7 @@ export interface EntityStateAdapter<T> {
     removeOne<S extends EntityState<T>>(key: number, state: S): S;
     removeMany<S extends EntityState<T>>(keys: string[], state: S): S;
     removeMany<S extends EntityState<T>>(keys: number[], state: S): S;
+    removeMany<S extends EntityState<T>>(predicate: Predicate<T>, state: S): S;
     removeAll<S extends EntityState<T>>(state: S): S;
     updateOne<S extends EntityState<T>>(update: Update<T>, state: S): S;
     updateMany<S extends EntityState<T>>(updates: Update<T>[], state: S): S;

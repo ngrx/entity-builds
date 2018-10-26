@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+70.sha-ab56aac
+ * @license NgRx 6.1.0+71.sha-d7daa2f
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -189,15 +189,19 @@ function createUnsortedStateAdapter(selectId) {
         return removeManyMutably([key], state);
     }
     /**
-     * @param {?} keys
+     * @param {?} keysOrPredicate
      * @param {?} state
      * @return {?}
      */
-    function removeManyMutably(keys, state) {
+    function removeManyMutably(keysOrPredicate, state) {
+        /** @type {?} */
+        const keys = keysOrPredicate instanceof Array
+            ? keysOrPredicate
+            : state.ids.filter((key) => keysOrPredicate(state.entities[key]));
         /** @type {?} */
         const didMutate = keys
-            .filter(key => key in state.entities)
-            .map(key => delete state.entities[key]).length > 0;
+            .filter((key) => key in state.entities)
+            .map((key) => delete state.entities[key]).length > 0;
         if (didMutate) {
             state.ids = state.ids.filter((id) => id in state.entities);
         }
