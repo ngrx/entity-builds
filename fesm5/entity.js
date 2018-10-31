@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+85.sha-a9e7cbd
+ * @license NgRx 0.0.0-PLACEHOLDER
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -46,13 +46,16 @@ function createSelectorsFactory() {
     return { getSelectors: getSelectors };
 }
 
-var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 var __read = (undefined && undefined.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
@@ -126,6 +129,7 @@ function createUnsortedStateAdapter(selectId) {
         return DidMutate.Both;
     }
     function addManyMutably(entities, state) {
+        var e_1, _a;
         var didMutate = false;
         try {
             for (var entities_1 = __values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
@@ -141,7 +145,6 @@ function createUnsortedStateAdapter(selectId) {
             finally { if (e_1) throw e_1.error; }
         }
         return didMutate ? DidMutate.Both : DidMutate.None;
-        var e_1, _a;
     }
     function addAllMutably(entities, state) {
         state.ids = [];
@@ -219,6 +222,7 @@ function createUnsortedStateAdapter(selectId) {
         return upsertManyMutably([entity], state);
     }
     function upsertManyMutably(entities, state) {
+        var e_2, _a;
         var added = [];
         var updated = [];
         try {
@@ -252,7 +256,6 @@ function createUnsortedStateAdapter(selectId) {
             default:
                 return DidMutate.EntitiesOnly;
         }
-        var e_2, _a;
     }
     return {
         removeAll: removeAll,
@@ -357,6 +360,7 @@ function createSortedStateAdapter(selectId, sort) {
         return upsertManyMutably([entity], state);
     }
     function upsertManyMutably(entities, state) {
+        var e_1, _a;
         var added = [];
         var updated = [];
         try {
@@ -390,7 +394,6 @@ function createSortedStateAdapter(selectId, sort) {
             default:
                 return DidMutate.EntitiesOnly;
         }
-        var e_1, _a;
     }
     function merge(models, state) {
         models.sort(sort);
@@ -436,13 +439,16 @@ function createSortedStateAdapter(selectId, sort) {
     };
 }
 
-var __assign$1 = (undefined && undefined.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign$1 = (undefined && undefined.__assign) || function () {
+    __assign$1 = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign$1.apply(this, arguments);
 };
 function createEntityAdapter(options) {
     if (options === void 0) { options = {}; }

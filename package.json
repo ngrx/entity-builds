@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/entity",
-  "version": "6.1.0+85.sha-a9e7cbd",
+  "version": "0.0.0-PLACEHOLDER",
   "description": "Common utilities for entity reducers",
   "repository": {
     "type": "git",
@@ -13,9 +13,9 @@
   },
   "homepage": "https://github.com/ngrx/platform#readme",
   "peerDependencies": {
-    "@angular/core": "^6.0.0",
-    "@ngrx/store": "6.1.0+85.sha-a9e7cbd",
-    "rxjs": "^5.6.0-forward-compat.0 || ^6.0.0"
+    "@angular/core": "^7.0.0",
+    "@ngrx/store": "0.0.0-PLACEHOLDER",
+    "rxjs": "^6.0.0"
   },
   "ng-update": {
     "packageGroup": [

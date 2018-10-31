@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+85.sha-a9e7cbd
+ * @license NgRx 0.0.0-PLACEHOLDER
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -80,7 +80,7 @@ function createSelectorsFactory() {
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @enum {number} */
-const DidMutate = {
+var DidMutate = {
     EntitiesOnly: 0,
     Both: 1,
     None: 2,
