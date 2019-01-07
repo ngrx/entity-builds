@@ -1,11 +1,18 @@
 {
   "name": "@ngrx/entity",
-  "version": "7.0.0+9.sha-d155d68.with-local-changes",
+  "version": "7.0.0+10.sha-da1c955.with-local-changes",
   "description": "Common utilities for entity reducers",
   "repository": {
     "type": "git",
     "url": "https://github.com/ngrx/platform.git"
   },
+  "keywords": [
+    "Angular",
+    "Redux",
+    "Entity",
+    "Schematics",
+    "Angular CLI"
+  ],
   "author": "NgRx",
   "license": "MIT",
   "bugs": {
@@ -14,9 +21,10 @@
   "homepage": "https://github.com/ngrx/platform#readme",
   "peerDependencies": {
     "@angular/core": "^7.0.0",
-    "@ngrx/store": "7.0.0+9.sha-d155d68.with-local-changes",
+    "@ngrx/store": "7.0.0+10.sha-da1c955.with-local-changes",
     "rxjs": "^6.0.0"
   },
+  "schematics": "./schematics/collection.json",
   "ng-update": {
     "packageGroup": [
       "@ngrx/store",
