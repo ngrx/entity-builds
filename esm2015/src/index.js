@@ -1,8 +1,7 @@
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 export { createEntityAdapter } from './create_adapter';
 export { Dictionary, } from './models';
-
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi9tb2R1bGVzL2VudGl0eS9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztBQUFBLE9BQU8sRUFBRSxtQkFBbUIsRUFBRSxNQUFNLGtCQUFrQixDQUFDO0FBQ3ZELE9BQU8sRUFDTCxVQUFVLEdBTVgsTUFBTSxVQUFVLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgeyBjcmVhdGVFbnRpdHlBZGFwdGVyIH0gZnJvbSAnLi9jcmVhdGVfYWRhcHRlcic7XG5leHBvcnQge1xuICBEaWN0aW9uYXJ5LFxuICBFbnRpdHlTdGF0ZSxcbiAgRW50aXR5QWRhcHRlcixcbiAgVXBkYXRlLFxuICBFbnRpdHlNYXAsXG4gIFByZWRpY2F0ZSxcbn0gZnJvbSAnLi9tb2RlbHMnO1xuIl19

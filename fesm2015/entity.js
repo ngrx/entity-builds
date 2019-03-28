@@ -1,5 +1,5 @@
 /**
- * @license NgRx 7.2.0+36.sha-a7e6303
+ * @license NgRx 7.2.0+37.sha-4bdb66e
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -8,7 +8,7 @@ import { isDevMode } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template V
@@ -37,7 +37,7 @@ function createInitialStateFactory() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -50,13 +50,34 @@ function createSelectorsFactory() {
      */
     function getSelectors(selectState) {
         /** @type {?} */
-        const selectIds = (state) => state.ids;
+        const selectIds = (/**
+         * @param {?} state
+         * @return {?}
+         */
+        (state) => state.ids);
         /** @type {?} */
-        const selectEntities = (state) => state.entities;
+        const selectEntities = (/**
+         * @param {?} state
+         * @return {?}
+         */
+        (state) => state.entities);
         /** @type {?} */
-        const selectAll = createSelector(selectIds, selectEntities, (ids, entities) => ids.map((id) => (/** @type {?} */ (entities))[id]));
+        const selectAll = createSelector(selectIds, selectEntities, (/**
+         * @param {?} ids
+         * @param {?} entities
+         * @return {?}
+         */
+        (ids, entities) => ids.map((/**
+         * @param {?} id
+         * @return {?}
+         */
+        (id) => ((/** @type {?} */ (entities)))[id]))));
         /** @type {?} */
-        const selectTotal = createSelector(selectIds, ids => ids.length);
+        const selectTotal = createSelector(selectIds, (/**
+         * @param {?} ids
+         * @return {?}
+         */
+        ids => ids.length));
         if (!selectState) {
             return {
                 selectIds,
@@ -77,10 +98,10 @@ function createSelectorsFactory() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
-var DidMutate = {
+const DidMutate = {
     EntitiesOnly: 0,
     Both: 1,
     None: 2,
@@ -94,7 +115,13 @@ DidMutate[DidMutate.None] = 'None';
  * @return {?}
  */
 function createStateOperator(mutator) {
-    return function operation(arg, state) {
+    return (/**
+     * @template S
+     * @param {?} arg
+     * @param {?} state
+     * @return {?}
+     */
+    function operation(arg, state) {
         /** @type {?} */
         const clonedEntityState = {
             ids: [...state.ids],
@@ -109,12 +136,12 @@ function createStateOperator(mutator) {
             return Object.assign({}, state, { entities: clonedEntityState.entities });
         }
         return state;
-    };
+    });
 }
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -133,7 +160,7 @@ function selectIdValue(entity, selectId) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -197,13 +224,29 @@ function createUnsortedStateAdapter(selectId) {
         /** @type {?} */
         const keys = keysOrPredicate instanceof Array
             ? keysOrPredicate
-            : state.ids.filter((key) => keysOrPredicate(state.entities[key]));
+            : state.ids.filter((/**
+             * @param {?} key
+             * @return {?}
+             */
+            (key) => keysOrPredicate(state.entities[key])));
         /** @type {?} */
         const didMutate = keys
-            .filter((key) => key in state.entities)
-            .map((key) => delete state.entities[key]).length > 0;
+            .filter((/**
+         * @param {?} key
+         * @return {?}
+         */
+        (key) => key in state.entities))
+            .map((/**
+         * @param {?} key
+         * @return {?}
+         */
+        (key) => delete state.entities[key])).length > 0;
         if (didMutate) {
-            state.ids = state.ids.filter((id) => id in state.entities);
+            state.ids = state.ids.filter((/**
+             * @param {?} id
+             * @return {?}
+             */
+            (id) => id in state.entities));
         }
         return didMutate ? DidMutate.Both : DidMutate.None;
     }
@@ -256,14 +299,26 @@ function createUnsortedStateAdapter(selectId) {
     function updateManyMutably(updates, state) {
         /** @type {?} */
         const newKeys = {};
-        updates = updates.filter(update => update.id in state.entities);
+        updates = updates.filter((/**
+         * @param {?} update
+         * @return {?}
+         */
+        update => update.id in state.entities));
         /** @type {?} */
         const didMutateEntities = updates.length > 0;
         if (didMutateEntities) {
             /** @type {?} */
-            const didMutateIds = updates.filter(update => takeNewKey(newKeys, update, state)).length > 0;
+            const didMutateIds = updates.filter((/**
+             * @param {?} update
+             * @return {?}
+             */
+            update => takeNewKey(newKeys, update, state))).length > 0;
             if (didMutateIds) {
-                state.ids = state.ids.map((id) => newKeys[id] || id);
+                state.ids = state.ids.map((/**
+                 * @param {?} id
+                 * @return {?}
+                 */
+                (id) => newKeys[id] || id));
                 return DidMutate.Both;
             }
             else {
@@ -279,16 +334,25 @@ function createUnsortedStateAdapter(selectId) {
      */
     function mapMutably(map, state) {
         /** @type {?} */
-        const changes = state.ids.reduce((changes, id) => {
+        const changes = state.ids.reduce((/**
+         * @param {?} changes
+         * @param {?} id
+         * @return {?}
+         */
+        (changes, id) => {
             /** @type {?} */
             const change = map(state.entities[id]);
             if (change !== state.entities[id]) {
                 changes.push({ id, changes: change });
             }
             return changes;
-        }, []);
+        }), []);
         /** @type {?} */
-        const updates = changes.filter(({ id }) => id in state.entities);
+        const updates = changes.filter((/**
+         * @param {?} __0
+         * @return {?}
+         */
+        ({ id }) => id in state.entities));
         return updateManyMutably(updates, state);
     }
     /**
@@ -351,7 +415,7 @@ function createUnsortedStateAdapter(selectId) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -376,7 +440,11 @@ function createSortedStateAdapter(selectId, sort) {
      */
     function addManyMutably(newModels, state) {
         /** @type {?} */
-        const models = newModels.filter(model => !(selectIdValue(model, selectId) in state.entities));
+        const models = newModels.filter((/**
+         * @param {?} model
+         * @return {?}
+         */
+        model => !(selectIdValue(model, selectId) in state.entities)));
         if (models.length === 0) {
             return DidMutate.None;
         }
@@ -433,7 +501,11 @@ function createSortedStateAdapter(selectId, sort) {
         /** @type {?} */
         const models = [];
         /** @type {?} */
-        const didMutateIds = updates.filter(update => takeUpdatedModel(models, update, state)).length >
+        const didMutateIds = updates.filter((/**
+         * @param {?} update
+         * @return {?}
+         */
+        update => takeUpdatedModel(models, update, state))).length >
             0;
         if (models.length === 0) {
             return DidMutate.None;
@@ -443,7 +515,12 @@ function createSortedStateAdapter(selectId, sort) {
             const originalIds = state.ids;
             /** @type {?} */
             const updatedIndexes = [];
-            state.ids = state.ids.filter((id, index) => {
+            state.ids = state.ids.filter((/**
+             * @param {?} id
+             * @param {?} index
+             * @return {?}
+             */
+            (id, index) => {
                 if (id in state.entities) {
                     return true;
                 }
@@ -451,10 +528,14 @@ function createSortedStateAdapter(selectId, sort) {
                     updatedIndexes.push(index);
                     return false;
                 }
-            });
+            }));
             merge(models, state);
             if (!didMutateIds &&
-                updatedIndexes.every((i) => state.ids[i] === originalIds[i])) {
+                updatedIndexes.every((/**
+                 * @param {?} i
+                 * @return {?}
+                 */
+                (i) => state.ids[i] === originalIds[i]))) {
                 return DidMutate.EntitiesOnly;
             }
             else {
@@ -469,14 +550,19 @@ function createSortedStateAdapter(selectId, sort) {
      */
     function mapMutably(updatesOrMap, state) {
         /** @type {?} */
-        const updates = state.ids.reduce((changes, id) => {
+        const updates = state.ids.reduce((/**
+         * @param {?} changes
+         * @param {?} id
+         * @return {?}
+         */
+        (changes, id) => {
             /** @type {?} */
             const change = updatesOrMap(state.entities[id]);
             if (change !== state.entities[id]) {
                 changes.push({ id, changes: change });
             }
             return changes;
-        }, []);
+        }), []);
         return updateManyMutably(updates, state);
     }
     /**
@@ -559,9 +645,14 @@ function createSortedStateAdapter(selectId, sort) {
         else {
             state.ids = ids.concat(state.ids.slice(j));
         }
-        models.forEach((model, i) => {
+        models.forEach((/**
+         * @param {?} model
+         * @param {?} i
+         * @return {?}
+         */
+        (model, i) => {
             state.entities[selectId(model)] = model;
-        });
+        }));
     }
     return {
         removeOne,
@@ -580,7 +671,7 @@ function createSortedStateAdapter(selectId, sort) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -588,7 +679,11 @@ function createSortedStateAdapter(selectId, sort) {
  * @return {?}
  */
 function createEntityAdapter(options = {}) {
-    const { selectId, sortComparer } = Object.assign({ sortComparer: false, selectId: (instance) => instance.id }, options);
+    const { selectId, sortComparer } = Object.assign({ sortComparer: false, selectId: (/**
+         * @param {?} instance
+         * @return {?}
+         */
+        (instance) => instance.id) }, options);
     /** @type {?} */
     const stateFactory = createInitialStateFactory();
     /** @type {?} */
@@ -603,7 +698,7 @@ function createEntityAdapter(options = {}) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @abstract
@@ -614,17 +709,17 @@ class Dictionary {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**

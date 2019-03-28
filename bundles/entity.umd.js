@@ -1,13 +1,13 @@
 /**
- * @license NgRx 7.2.0+36.sha-a7e6303
+ * @license NgRx 7.2.0+37.sha-4bdb66e
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store'), require('@angular/core')) :
     typeof define === 'function' && define.amd ? define('@ngrx/entity', ['exports', '@ngrx/store', '@angular/core'], factory) :
-    (factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}),global['@ngrx/store'],global.ng.core));
-}(this, (function (exports,store,core) { 'use strict';
+    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}), global['@ngrx/store'], global.ng.core));
+}(this, function (exports, store, core) { 'use strict';
 
     function getInitialEntityState() {
         return {
@@ -486,5 +486,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=entity.umd.js.map
