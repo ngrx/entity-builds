@@ -1,13 +1,13 @@
 /**
- * @license NgRx 7.4.0+20.sha-c9c9a0e
+ * @license NgRx 7.4.0+21.sha-00b550e
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store'), require('@angular/core')) :
-    typeof define === 'function' && define.amd ? define('@ngrx/entity', ['exports', '@ngrx/store', '@angular/core'], factory) :
-    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}), global['@ngrx/store'], global.ng.core));
-}(this, function (exports, store, core) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('tslib'), require('@ngrx/store'), require('@angular/core')) :
+    typeof define === 'function' && define.amd ? define('@ngrx/entity', ['exports', 'tslib', '@ngrx/store', '@angular/core'], factory) :
+    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}), global.tslib, global['@ngrx/store'], global.ng.core));
+}(this, function (exports, tslib_1, store, core) { 'use strict';
 
     function getInitialEntityState() {
         return {
@@ -49,37 +49,6 @@
         return { getSelectors: getSelectors };
     }
 
-    var __assign = (undefined && undefined.__assign) || function () {
-        __assign = Object.assign || function(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
-                s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                    t[p] = s[p];
-            }
-            return t;
-        };
-        return __assign.apply(this, arguments);
-    };
-    var __read = (undefined && undefined.__read) || function (o, n) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator];
-        if (!m) return o;
-        var i = m.call(o), r, ar = [], e;
-        try {
-            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-        }
-        catch (error) { e = { error: error }; }
-        finally {
-            try {
-                if (r && !r.done && (m = i["return"])) m.call(i);
-            }
-            finally { if (e) throw e.error; }
-        }
-        return ar;
-    };
-    var __spread = (undefined && undefined.__spread) || function () {
-        for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-        return ar;
-    };
     var DidMutate;
     (function (DidMutate) {
         DidMutate[DidMutate["EntitiesOnly"] = 0] = "EntitiesOnly";
@@ -89,15 +58,15 @@
     function createStateOperator(mutator) {
         return function operation(arg, state) {
             var clonedEntityState = {
-                ids: __spread(state.ids),
-                entities: __assign({}, state.entities),
+                ids: tslib_1.__spread(state.ids),
+                entities: tslib_1.__assign({}, state.entities),
             };
             var didMutate = mutator(arg, clonedEntityState);
             if (didMutate === DidMutate.Both) {
                 return Object.assign({}, state, clonedEntityState);
             }
             if (didMutate === DidMutate.EntitiesOnly) {
-                return __assign({}, state, { entities: clonedEntityState.entities });
+                return tslib_1.__assign({}, state, { entities: clonedEntityState.entities });
             }
             return state;
         };
@@ -111,16 +80,6 @@
         return key;
     }
 
-    var __values = (undefined && undefined.__values) || function (o) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-        if (m) return m.call(o);
-        return {
-            next: function () {
-                if (o && i >= o.length) o = void 0;
-                return { value: o && o[i++], done: !o };
-            }
-        };
-    };
     function createUnsortedStateAdapter(selectId) {
         function addOneMutably(entity, state) {
             var key = selectIdValue(entity, selectId);
@@ -135,7 +94,7 @@
             var e_1, _a;
             var didMutate = false;
             try {
-                for (var entities_1 = __values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
+                for (var entities_1 = tslib_1.__values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
                     var entity = entities_1_1.value;
                     didMutate = addOneMutably(entity, state) !== DidMutate.None || didMutate;
                 }
@@ -229,7 +188,7 @@
             var added = [];
             var updated = [];
             try {
-                for (var entities_2 = __values(entities), entities_2_1 = entities_2.next(); !entities_2_1.done; entities_2_1 = entities_2.next()) {
+                for (var entities_2 = tslib_1.__values(entities), entities_2_1 = entities_2.next(); !entities_2_1.done; entities_2_1 = entities_2.next()) {
                     var entity = entities_2_1.value;
                     var id = selectIdValue(entity, selectId);
                     if (id in state.entities) {
@@ -275,16 +234,6 @@
         };
     }
 
-    var __values$1 = (undefined && undefined.__values) || function (o) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-        if (m) return m.call(o);
-        return {
-            next: function () {
-                if (o && i >= o.length) o = void 0;
-                return { value: o && o[i++], done: !o };
-            }
-        };
-    };
     function createSortedStateAdapter(selectId, sort) {
         var _a = createUnsortedStateAdapter(selectId), removeOne = _a.removeOne, removeMany = _a.removeMany, removeAll = _a.removeAll;
         function addOneMutably(entity, state) {
@@ -367,7 +316,7 @@
             var added = [];
             var updated = [];
             try {
-                for (var entities_1 = __values$1(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
+                for (var entities_1 = tslib_1.__values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
                     var entity = entities_1_1.value;
                     var id = selectIdValue(entity, selectId);
                     if (id in state.entities) {
@@ -442,26 +391,15 @@
         };
     }
 
-    var __assign$1 = (undefined && undefined.__assign) || function () {
-        __assign$1 = Object.assign || function(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
-                s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                    t[p] = s[p];
-            }
-            return t;
-        };
-        return __assign$1.apply(this, arguments);
-    };
     function createEntityAdapter(options) {
         if (options === void 0) { options = {}; }
-        var _a = __assign$1({ sortComparer: false, selectId: function (instance) { return instance.id; } }, options), selectId = _a.selectId, sortComparer = _a.sortComparer;
+        var _a = tslib_1.__assign({ sortComparer: false, selectId: function (instance) { return instance.id; } }, options), selectId = _a.selectId, sortComparer = _a.sortComparer;
         var stateFactory = createInitialStateFactory();
         var selectorsFactory = createSelectorsFactory();
         var stateAdapter = sortComparer
             ? createSortedStateAdapter(selectId, sortComparer)
             : createUnsortedStateAdapter(selectId);
-        return __assign$1({ selectId: selectId,
+        return tslib_1.__assign({ selectId: selectId,
             sortComparer: sortComparer }, stateFactory, selectorsFactory, stateAdapter);
     }
 
