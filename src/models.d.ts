@@ -5,10 +5,10 @@ export declare type IdSelectorStr<T> = (model: T) => string;
 export declare type IdSelectorNum<T> = (model: T) => number;
 export declare type IdSelector<T> = IdSelectorStr<T> | IdSelectorNum<T>;
 export interface DictionaryNum<T> {
-    [id: number]: T;
+    [id: number]: T | undefined;
 }
 export declare abstract class Dictionary<T> implements DictionaryNum<T> {
-    [id: string]: T;
+    [id: string]: T | undefined;
 }
 export interface UpdateStr<T> {
     id: string;
