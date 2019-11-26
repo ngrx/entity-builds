@@ -1,12 +1,12 @@
 /**
- * @license NgRx 8.5.2+4.sha-e870514
+ * @license NgRx 8.5.2+6.sha-98defed
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('tslib'), require('@ngrx/store'), require('@angular/core')) :
     typeof define === 'function' && define.amd ? define('@ngrx/entity', ['exports', 'tslib', '@ngrx/store', '@angular/core'], factory) :
-    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}), global.tslib, global['@ngrx/store'], global.ng.core));
+    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}), global.tslib, global.ngrx.store, global.ng.core));
 }(this, function (exports, tslib_1, store, core) { 'use strict';
 
     function getInitialEntityState() {
