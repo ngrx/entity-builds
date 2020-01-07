@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+3.sha-fe6bfa7
+ * @license NgRx 8.6.0+4.sha-b146af5
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -7,7 +7,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('tslib'), require('@ngrx/store'), require('@angular/core')) :
     typeof define === 'function' && define.amd ? define('@ngrx/entity', ['exports', 'tslib', '@ngrx/store', '@angular/core'], factory) :
     (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}), global.tslib, global.ngrx.store, global.ng.core));
-}(this, function (exports, tslib_1, store, core) { 'use strict';
+}(this, (function (exports, tslib, store, core) { 'use strict';
 
     function getInitialEntityState() {
         return {
@@ -58,15 +58,15 @@
     function createStateOperator(mutator) {
         return function operation(arg, state) {
             var clonedEntityState = {
-                ids: tslib_1.__spread(state.ids),
-                entities: tslib_1.__assign({}, state.entities),
+                ids: tslib.__spread(state.ids),
+                entities: tslib.__assign({}, state.entities),
             };
             var didMutate = mutator(arg, clonedEntityState);
             if (didMutate === DidMutate.Both) {
                 return Object.assign({}, state, clonedEntityState);
             }
             if (didMutate === DidMutate.EntitiesOnly) {
-                return tslib_1.__assign({}, state, { entities: clonedEntityState.entities });
+                return tslib.__assign(tslib.__assign({}, state), { entities: clonedEntityState.entities });
             }
             return state;
         };
@@ -94,7 +94,7 @@
             var e_1, _a;
             var didMutate = false;
             try {
-                for (var entities_1 = tslib_1.__values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
+                for (var entities_1 = tslib.__values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
                     var entity = entities_1_1.value;
                     didMutate = addOneMutably(entity, state) !== DidMutate.None || didMutate;
                 }
@@ -188,7 +188,7 @@
             var added = [];
             var updated = [];
             try {
-                for (var entities_2 = tslib_1.__values(entities), entities_2_1 = entities_2.next(); !entities_2_1.done; entities_2_1 = entities_2.next()) {
+                for (var entities_2 = tslib.__values(entities), entities_2_1 = entities_2.next(); !entities_2_1.done; entities_2_1 = entities_2.next()) {
                     var entity = entities_2_1.value;
                     var id = selectIdValue(entity, selectId);
                     if (id in state.entities) {
@@ -316,7 +316,7 @@
             var added = [];
             var updated = [];
             try {
-                for (var entities_1 = tslib_1.__values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
+                for (var entities_1 = tslib.__values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
                     var entity = entities_1_1.value;
                     var id = selectIdValue(entity, selectId);
                     if (id in state.entities) {
@@ -393,14 +393,14 @@
 
     function createEntityAdapter(options) {
         if (options === void 0) { options = {}; }
-        var _a = tslib_1.__assign({ sortComparer: false, selectId: function (instance) { return instance.id; } }, options), selectId = _a.selectId, sortComparer = _a.sortComparer;
+        var _a = tslib.__assign({ sortComparer: false, selectId: function (instance) { return instance.id; } }, options), selectId = _a.selectId, sortComparer = _a.sortComparer;
         var stateFactory = createInitialStateFactory();
         var selectorsFactory = createSelectorsFactory();
         var stateAdapter = sortComparer
             ? createSortedStateAdapter(selectId, sortComparer)
             : createUnsortedStateAdapter(selectId);
-        return tslib_1.__assign({ selectId: selectId,
-            sortComparer: sortComparer }, stateFactory, selectorsFactory, stateAdapter);
+        return tslib.__assign(tslib.__assign(tslib.__assign({ selectId: selectId,
+            sortComparer: sortComparer }, stateFactory), selectorsFactory), stateAdapter);
     }
 
     var Dictionary = /** @class */ (function () {
@@ -419,10 +419,10 @@
      * Generated bundle index. Do not edit.
      */
 
-    exports.createEntityAdapter = createEntityAdapter;
     exports.Dictionary = Dictionary;
+    exports.createEntityAdapter = createEntityAdapter;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=entity.umd.js.map

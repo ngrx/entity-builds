@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+3.sha-fe6bfa7
+ * @license NgRx 8.6.0+4.sha-b146af5
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -8,7 +8,8 @@ import { isDevMode } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/entity_state.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template V
@@ -37,7 +38,8 @@ function createInitialStateFactory() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/state_selectors.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -98,7 +100,8 @@ function createSelectorsFactory() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/state_adapter.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
 const DidMutate = {
@@ -133,7 +136,7 @@ function createStateOperator(mutator) {
             return Object.assign({}, state, clonedEntityState);
         }
         if (didMutate === DidMutate.EntitiesOnly) {
-            return Object.assign({}, state, { entities: clonedEntityState.entities });
+            return Object.assign(Object.assign({}, state), { entities: clonedEntityState.entities });
         }
         return state;
     });
@@ -141,7 +144,8 @@ function createStateOperator(mutator) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/utils.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -160,7 +164,8 @@ function selectIdValue(entity, selectId) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/unsorted_state_adapter.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -415,7 +420,8 @@ function createUnsortedStateAdapter(selectId) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/sorted_state_adapter.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -671,7 +677,8 @@ function createSortedStateAdapter(selectId, sort) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/create_adapter.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -692,39 +699,242 @@ function createEntityAdapter(options = {}) {
     const stateAdapter = sortComparer
         ? createSortedStateAdapter(selectId, sortComparer)
         : createUnsortedStateAdapter(selectId);
-    return Object.assign({ selectId,
-        sortComparer }, stateFactory, selectorsFactory, stateAdapter);
+    return Object.assign(Object.assign(Object.assign({ selectId,
+        sortComparer }, stateFactory), selectorsFactory), stateAdapter);
 }
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/models.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * @record
+ * @template T
+ */
+function DictionaryNum() { }
 /**
  * @abstract
  * @template T
  */
 class Dictionary {
 }
+/**
+ * @record
+ * @template T
+ */
+function UpdateStr() { }
+if (false) {
+    /** @type {?} */
+    UpdateStr.prototype.id;
+    /** @type {?} */
+    UpdateStr.prototype.changes;
+}
+/**
+ * @record
+ * @template T
+ */
+function UpdateNum() { }
+if (false) {
+    /** @type {?} */
+    UpdateNum.prototype.id;
+    /** @type {?} */
+    UpdateNum.prototype.changes;
+}
+/**
+ * @record
+ * @template T
+ */
+function EntityState() { }
+if (false) {
+    /** @type {?} */
+    EntityState.prototype.ids;
+    /** @type {?} */
+    EntityState.prototype.entities;
+}
+/**
+ * @record
+ * @template T
+ */
+function EntityDefinition() { }
+if (false) {
+    /** @type {?} */
+    EntityDefinition.prototype.selectId;
+    /** @type {?} */
+    EntityDefinition.prototype.sortComparer;
+}
+/**
+ * @record
+ * @template T
+ */
+function EntityStateAdapter() { }
+if (false) {
+    /**
+     * @template S
+     * @param {?} entity
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.addOne = function (entity, state) { };
+    /**
+     * @template S
+     * @param {?} entities
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.addMany = function (entities, state) { };
+    /**
+     * @template S
+     * @param {?} entities
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.addAll = function (entities, state) { };
+    /**
+     * @template S
+     * @param {?} key
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.removeOne = function (key, state) { };
+    /**
+     * @template S
+     * @param {?} key
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.removeOne = function (key, state) { };
+    /**
+     * @template S
+     * @param {?} keys
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.removeMany = function (keys, state) { };
+    /**
+     * @template S
+     * @param {?} keys
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.removeMany = function (keys, state) { };
+    /**
+     * @template S
+     * @param {?} predicate
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.removeMany = function (predicate, state) { };
+    /**
+     * @template S
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.removeAll = function (state) { };
+    /**
+     * @template S
+     * @param {?} update
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.updateOne = function (update, state) { };
+    /**
+     * @template S
+     * @param {?} updates
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.updateMany = function (updates, state) { };
+    /**
+     * @template S
+     * @param {?} entity
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.upsertOne = function (entity, state) { };
+    /**
+     * @template S
+     * @param {?} entities
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.upsertMany = function (entities, state) { };
+    /**
+     * @template S
+     * @param {?} map
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.map = function (map, state) { };
+}
+/**
+ * @record
+ * @template T, V
+ */
+function EntitySelectors() { }
+if (false) {
+    /** @type {?} */
+    EntitySelectors.prototype.selectIds;
+    /** @type {?} */
+    EntitySelectors.prototype.selectEntities;
+    /** @type {?} */
+    EntitySelectors.prototype.selectAll;
+    /** @type {?} */
+    EntitySelectors.prototype.selectTotal;
+}
+/**
+ * @record
+ * @template T
+ */
+function EntityAdapter() { }
+if (false) {
+    /** @type {?} */
+    EntityAdapter.prototype.selectId;
+    /** @type {?} */
+    EntityAdapter.prototype.sortComparer;
+    /**
+     * @return {?}
+     */
+    EntityAdapter.prototype.getInitialState = function () { };
+    /**
+     * @template S
+     * @param {?} state
+     * @return {?}
+     */
+    EntityAdapter.prototype.getInitialState = function (state) { };
+    /**
+     * @return {?}
+     */
+    EntityAdapter.prototype.getSelectors = function () { };
+    /**
+     * @template V
+     * @param {?} selectState
+     * @return {?}
+     */
+    EntityAdapter.prototype.getSelectors = function (selectState) { };
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/src/index.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/public_api.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/entity/index.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * Generated bundle index. Do not edit.
  */
 
-export { createEntityAdapter, Dictionary };
+export { Dictionary, createEntityAdapter };
 //# sourceMappingURL=entity.js.map

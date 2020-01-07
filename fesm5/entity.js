@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+3.sha-fe6bfa7
+ * @license NgRx 8.6.0+4.sha-b146af5
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -64,7 +64,7 @@ function createStateOperator(mutator) {
             return Object.assign({}, state, clonedEntityState);
         }
         if (didMutate === DidMutate.EntitiesOnly) {
-            return __assign({}, state, { entities: clonedEntityState.entities });
+            return __assign(__assign({}, state), { entities: clonedEntityState.entities });
         }
         return state;
     };
@@ -397,8 +397,8 @@ function createEntityAdapter(options) {
     var stateAdapter = sortComparer
         ? createSortedStateAdapter(selectId, sortComparer)
         : createUnsortedStateAdapter(selectId);
-    return __assign({ selectId: selectId,
-        sortComparer: sortComparer }, stateFactory, selectorsFactory, stateAdapter);
+    return __assign(__assign(__assign({ selectId: selectId,
+        sortComparer: sortComparer }, stateFactory), selectorsFactory), stateAdapter);
 }
 
 var Dictionary = /** @class */ (function () {
@@ -417,5 +417,5 @@ var Dictionary = /** @class */ (function () {
  * Generated bundle index. Do not edit.
  */
 
-export { createEntityAdapter, Dictionary };
+export { Dictionary, createEntityAdapter };
 //# sourceMappingURL=entity.js.map
