@@ -206,7 +206,7 @@ function createUnsortedStateAdapter(selectId) {
      * @param {?} state
      * @return {?}
      */
-    function addAllMutably(entities, state) {
+    function setAllMutably(entities, state) {
         state.ids = [];
         state.entities = {};
         addManyMutably(entities, state);
@@ -407,7 +407,8 @@ function createUnsortedStateAdapter(selectId) {
         removeAll,
         addOne: createStateOperator(addOneMutably),
         addMany: createStateOperator(addManyMutably),
-        addAll: createStateOperator(addAllMutably),
+        addAll: createStateOperator(setAllMutably),
+        setAll: createStateOperator(setAllMutably),
         updateOne: createStateOperator(updateOneMutably),
         updateMany: createStateOperator(updateManyMutably),
         upsertOne: createStateOperator(upsertOneMutably),
@@ -464,7 +465,7 @@ function createSortedStateAdapter(selectId, sort) {
      * @param {?} state
      * @return {?}
      */
-    function addAllMutably(models, state) {
+    function setAllMutably(models, state) {
         state.entities = {};
         state.ids = [];
         addManyMutably(models, state);
@@ -667,7 +668,8 @@ function createSortedStateAdapter(selectId, sort) {
         addOne: createStateOperator(addOneMutably),
         updateOne: createStateOperator(updateOneMutably),
         upsertOne: createStateOperator(upsertOneMutably),
-        addAll: createStateOperator(addAllMutably),
+        addAll: createStateOperator(setAllMutably),
+        setAll: createStateOperator(setAllMutably),
         addMany: createStateOperator(addManyMutably),
         updateMany: createStateOperator(updateManyMutably),
         upsertMany: createStateOperator(upsertManyMutably),
@@ -784,12 +786,20 @@ if (false) {
      */
     EntityStateAdapter.prototype.addMany = function (entities, state) { };
     /**
+     * @deprecated addAll has been renamed. Use setAll instead.
      * @template S
      * @param {?} entities
      * @param {?} state
      * @return {?}
      */
     EntityStateAdapter.prototype.addAll = function (entities, state) { };
+    /**
+     * @template S
+     * @param {?} entities
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.setAll = function (entities, state) { };
     /**
      * @template S
      * @param {?} key

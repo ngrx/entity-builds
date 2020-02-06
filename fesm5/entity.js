@@ -106,7 +106,7 @@ function createUnsortedStateAdapter(selectId) {
         }
         return didMutate ? DidMutate.Both : DidMutate.None;
     }
-    function addAllMutably(entities, state) {
+    function setAllMutably(entities, state) {
         state.ids = [];
         state.entities = {};
         addManyMutably(entities, state);
@@ -221,7 +221,8 @@ function createUnsortedStateAdapter(selectId) {
         removeAll: removeAll,
         addOne: createStateOperator(addOneMutably),
         addMany: createStateOperator(addManyMutably),
-        addAll: createStateOperator(addAllMutably),
+        addAll: createStateOperator(setAllMutably),
+        setAll: createStateOperator(setAllMutably),
         updateOne: createStateOperator(updateOneMutably),
         updateMany: createStateOperator(updateManyMutably),
         upsertOne: createStateOperator(upsertOneMutably),
@@ -247,7 +248,7 @@ function createSortedStateAdapter(selectId, sort) {
             return DidMutate.Both;
         }
     }
-    function addAllMutably(models, state) {
+    function setAllMutably(models, state) {
         state.entities = {};
         state.ids = [];
         addManyMutably(models, state);
@@ -381,7 +382,8 @@ function createSortedStateAdapter(selectId, sort) {
         addOne: createStateOperator(addOneMutably),
         updateOne: createStateOperator(updateOneMutably),
         upsertOne: createStateOperator(upsertOneMutably),
-        addAll: createStateOperator(addAllMutably),
+        addAll: createStateOperator(setAllMutably),
+        setAll: createStateOperator(setAllMutably),
         addMany: createStateOperator(addManyMutably),
         updateMany: createStateOperator(updateManyMutably),
         upsertMany: createStateOperator(upsertManyMutably),
