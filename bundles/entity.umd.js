@@ -1,5 +1,5 @@
 /**
- * @license NgRx 9.0.0-beta.2+4.sha-4dcba7d
+ * @license NgRx 9.0.0-beta.2+5.sha-4b4bb85
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -114,6 +114,16 @@
             addManyMutably(entities, state);
             return DidMutate.Both;
         }
+        function setOneMutably(entity, state) {
+            var key = selectIdValue(entity, selectId);
+            if (key in state.entities) {
+                state.entities[key] = entity;
+                return DidMutate.EntitiesOnly;
+            }
+            state.ids.push(key);
+            state.entities[key] = entity;
+            return DidMutate.Both;
+        }
         function removeOneMutably(key, state) {
             return removeManyMutably([key], state);
         }
@@ -225,6 +235,7 @@
             addMany: createStateOperator(addManyMutably),
             addAll: createStateOperator(setAllMutably),
             setAll: createStateOperator(setAllMutably),
+            setOne: createStateOperator(setOneMutably),
             updateOne: createStateOperator(updateOneMutably),
             updateMany: createStateOperator(updateManyMutably),
             upsertOne: createStateOperator(upsertOneMutably),
@@ -255,6 +266,17 @@
             state.ids = [];
             addManyMutably(models, state);
             return DidMutate.Both;
+        }
+        function setOneMutably(entity, state) {
+            var id = selectIdValue(entity, selectId);
+            if (id in state.entities) {
+                state.ids = state.ids.filter(function (val) { return val !== id; });
+                merge([entity], state);
+                return DidMutate.Both;
+            }
+            else {
+                return addOneMutably(entity, state);
+            }
         }
         function updateOneMutably(update, state) {
             return updateManyMutably([update], state);
@@ -386,6 +408,7 @@
             upsertOne: createStateOperator(upsertOneMutably),
             addAll: createStateOperator(setAllMutably),
             setAll: createStateOperator(setAllMutably),
+            setOne: createStateOperator(setOneMutably),
             addMany: createStateOperator(addManyMutably),
             updateMany: createStateOperator(updateManyMutably),
             upsertMany: createStateOperator(upsertManyMutably),

@@ -1,5 +1,5 @@
 /**
- * @license NgRx 9.0.0-beta.2+4.sha-4dcba7d
+ * @license NgRx 9.0.0-beta.2+5.sha-4b4bb85
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -213,6 +213,22 @@ function createUnsortedStateAdapter(selectId) {
         return DidMutate.Both;
     }
     /**
+     * @param {?} entity
+     * @param {?} state
+     * @return {?}
+     */
+    function setOneMutably(entity, state) {
+        /** @type {?} */
+        const key = selectIdValue(entity, selectId);
+        if (key in state.entities) {
+            state.entities[key] = entity;
+            return DidMutate.EntitiesOnly;
+        }
+        state.ids.push(key);
+        state.entities[key] = entity;
+        return DidMutate.Both;
+    }
+    /**
      * @param {?} key
      * @param {?} state
      * @return {?}
@@ -409,6 +425,7 @@ function createUnsortedStateAdapter(selectId) {
         addMany: createStateOperator(addManyMutably),
         addAll: createStateOperator(setAllMutably),
         setAll: createStateOperator(setAllMutably),
+        setOne: createStateOperator(setOneMutably),
         updateOne: createStateOperator(updateOneMutably),
         updateMany: createStateOperator(updateManyMutably),
         upsertOne: createStateOperator(upsertOneMutably),
@@ -470,6 +487,27 @@ function createSortedStateAdapter(selectId, sort) {
         state.ids = [];
         addManyMutably(models, state);
         return DidMutate.Both;
+    }
+    /**
+     * @param {?} entity
+     * @param {?} state
+     * @return {?}
+     */
+    function setOneMutably(entity, state) {
+        /** @type {?} */
+        const id = selectIdValue(entity, selectId);
+        if (id in state.entities) {
+            state.ids = state.ids.filter((/**
+             * @param {?} val
+             * @return {?}
+             */
+            (val) => val !== id));
+            merge([entity], state);
+            return DidMutate.Both;
+        }
+        else {
+            return addOneMutably(entity, state);
+        }
     }
     /**
      * @param {?} update
@@ -670,6 +708,7 @@ function createSortedStateAdapter(selectId, sort) {
         upsertOne: createStateOperator(upsertOneMutably),
         addAll: createStateOperator(setAllMutably),
         setAll: createStateOperator(setAllMutably),
+        setOne: createStateOperator(setOneMutably),
         addMany: createStateOperator(addManyMutably),
         updateMany: createStateOperator(updateManyMutably),
         upsertMany: createStateOperator(upsertManyMutably),
@@ -800,6 +839,13 @@ if (false) {
      * @return {?}
      */
     EntityStateAdapter.prototype.setAll = function (entities, state) { };
+    /**
+     * @template S
+     * @param {?} entity
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.setOne = function (entity, state) { };
     /**
      * @template S
      * @param {?} key

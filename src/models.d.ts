@@ -35,6 +35,7 @@ export interface EntityStateAdapter<T> {
     /** @deprecated addAll has been renamed. Use setAll instead. */
     addAll<S extends EntityState<T>>(entities: T[], state: S): S;
     setAll<S extends EntityState<T>>(entities: T[], state: S): S;
+    setOne<S extends EntityState<T>>(entity: T, state: S): S;
     removeOne<S extends EntityState<T>>(key: string, state: S): S;
     removeOne<S extends EntityState<T>>(key: number, state: S): S;
     removeMany<S extends EntityState<T>>(keys: string[], state: S): S;
