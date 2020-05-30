@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/entity",
-  "version": "9.2.0+2.sha-aba7368",
+  "version": "9.2.0",
   "description": "Common utilities for entity reducers",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/ngrx/platform#readme",
   "peerDependencies": {
     "@angular/core": "^9.0.0",
-    "@ngrx/store": "9.2.0+2.sha-aba7368",
+    "@ngrx/store": "9.2.0",
     "rxjs": "^6.5.3"
   },
   "schematics": "./schematics/collection.json",
@@ -32,20 +32,23 @@
       "@ngrx/entity",
       "@ngrx/router-store",
       "@ngrx/data",
-      "@ngrx/component",
-      "@ngrx/component-store",
       "@ngrx/schematics",
       "@ngrx/store-devtools"
     ],
     "migrations": "./migrations/migration.json"
   },
   "sideEffects": false,
-  "main": "./bundles/entity.umd.js",
-  "fesm5": "./fesm5/entity.js",
-  "fesm2015": "./fesm2015/entity.js",
-  "esm5": "./esm5/entity.js",
-  "esm2015": "./esm2015/entity.js",
-  "typings": "./entity.d.ts",
-  "module": "./fesm5/entity.js",
-  "es2015": "./fesm2015/entity.js"
+  "main": "bundles/ngrx-entity.umd.js",
+  "module": "fesm5/ngrx-entity.js",
+  "es2015": "fesm2015/ngrx-entity.js",
+  "esm5": "esm5/ngrx-entity.js",
+  "esm2015": "esm2015/ngrx-entity.js",
+  "fesm5": "fesm5/ngrx-entity.js",
+  "fesm2015": "fesm2015/ngrx-entity.js",
+  "typings": "ngrx-entity.d.ts",
+  "metadata": "ngrx-entity.metadata.json",
+  "dependencies": {
+    "tslib": "^1.10.0",
+    "@angular/platform-browser": "^9.1.0"
+  }
 }

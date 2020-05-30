@@ -1,0 +1,1 @@
+{"version":3,"file":"ngrx-entity.js","sourceRoot":"ng://@ngrx/entity/","sources":["ngrx-entity.ts"],"names":[],"mappings":";;;;;;;;AAIA,gDAAc,SAAS,CAAC","sourcesContent":["/**\n * Generated bundle index. Do not edit.\n */\n\nexport * from './index';\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"public_api.js","sourceRoot":"ng://@ngrx/entity/","sources":["public_api.ts"],"names":[],"mappings":";;;;;AAAA,gDAAc,aAAa,CAAC","sourcesContent":["export * from './src/index';\n"]}
