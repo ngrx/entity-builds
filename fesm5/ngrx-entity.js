@@ -379,7 +379,8 @@ function createUnsortedStateAdapter(selectId) {
              * @param {?} update
              * @return {?}
              */
-            function (update) { return takeNewKey(newKeys, update, state); })).length > 0;
+            function (update) { return takeNewKey(newKeys, update, state); })).length >
+                0;
             if (didMutateIds) {
                 state.ids = state.ids.map((/**
                  * @param {?} id
@@ -616,8 +617,8 @@ function createSortedStateAdapter(selectId, sort) {
          * @param {?} update
          * @return {?}
          */
-        function (update) { return takeUpdatedModel(models, update, state); })).length >
-            0;
+        function (update) { return takeUpdatedModel(models, update, state); }))
+            .length > 0;
         if (models.length === 0) {
             return DidMutate.None;
         }

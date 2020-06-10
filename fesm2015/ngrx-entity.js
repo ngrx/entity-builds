@@ -74,7 +74,7 @@ function createSelectorsFactory() {
          * @param {?} ids
          * @return {?}
          */
-        ids => ids.length));
+        (ids) => ids.length));
         if (!selectState) {
             return {
                 selectIds,
@@ -319,7 +319,7 @@ function createUnsortedStateAdapter(selectId) {
          * @param {?} update
          * @return {?}
          */
-        update => update.id in state.entities));
+        (update) => update.id in state.entities));
         /** @type {?} */
         const didMutateEntities = updates.length > 0;
         if (didMutateEntities) {
@@ -328,7 +328,8 @@ function createUnsortedStateAdapter(selectId) {
              * @param {?} update
              * @return {?}
              */
-            update => takeNewKey(newKeys, update, state))).length > 0;
+            (update) => takeNewKey(newKeys, update, state))).length >
+                0;
             if (didMutateIds) {
                 state.ids = state.ids.map((/**
                  * @param {?} id
@@ -463,7 +464,7 @@ function createSortedStateAdapter(selectId, sort) {
          * @param {?} model
          * @return {?}
          */
-        model => !(selectIdValue(model, selectId) in state.entities)));
+        (model) => !(selectIdValue(model, selectId) in state.entities)));
         if (models.length === 0) {
             return DidMutate.None;
         }
@@ -545,8 +546,8 @@ function createSortedStateAdapter(selectId, sort) {
          * @param {?} update
          * @return {?}
          */
-        update => takeUpdatedModel(models, update, state))).length >
-            0;
+        (update) => takeUpdatedModel(models, update, state)))
+            .length > 0;
         if (models.length === 0) {
             return DidMutate.None;
         }
