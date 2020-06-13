@@ -39,15 +39,13 @@
   },
   "sideEffects": false,
   "main": "bundles/ngrx-entity.umd.js",
-  "module": "fesm5/ngrx-entity.js",
+  "module": "fesm2015/ngrx-entity.js",
   "es2015": "fesm2015/ngrx-entity.js",
-  "esm5": "esm5/ngrx-entity.js",
   "esm2015": "esm2015/ngrx-entity.js",
-  "fesm5": "fesm5/ngrx-entity.js",
   "fesm2015": "fesm2015/ngrx-entity.js",
   "typings": "ngrx-entity.d.ts",
   "metadata": "ngrx-entity.metadata.json",
   "dependencies": {
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   }
 }
