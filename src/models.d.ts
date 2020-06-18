@@ -1,6 +1,4 @@
-export declare type ComparerStr<T> = (a: T, b: T) => string;
-export declare type ComparerNum<T> = (a: T, b: T) => number;
-export declare type Comparer<T> = ComparerNum<T> | ComparerStr<T>;
+export declare type Comparer<T> = (a: T, b: T) => number;
 export declare type IdSelectorStr<T> = (model: T) => string;
 export declare type IdSelectorNum<T> = (model: T) => number;
 export declare type IdSelector<T> = IdSelectorStr<T> | IdSelectorNum<T>;
