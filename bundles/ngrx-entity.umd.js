@@ -663,6 +663,25 @@
             return updateManyMutably(updates, state);
         }
         /**
+         * @param {?} __0
+         * @param {?} state
+         * @return {?}
+         */
+        function mapOneMutably(_a, state) {
+            var map = _a.map, id = _a.id;
+            /** @type {?} */
+            var entity = state.entities[id];
+            if (!entity) {
+                return DidMutate.None;
+            }
+            /** @type {?} */
+            var updatedEntity = map(entity);
+            return updateOneMutably({
+                id: id,
+                changes: updatedEntity,
+            }, state);
+        }
+        /**
          * @param {?} entity
          * @param {?} state
          * @return {?}
@@ -730,6 +749,7 @@
             removeOne: createStateOperator(removeOneMutably),
             removeMany: createStateOperator(removeManyMutably),
             map: createStateOperator(mapMutably),
+            mapOne: createStateOperator(mapOneMutably),
         };
     }
 
@@ -897,6 +917,25 @@
             return updateManyMutably(updates, state);
         }
         /**
+         * @param {?} __0
+         * @param {?} state
+         * @return {?}
+         */
+        function mapOneMutably(_a, state) {
+            var map = _a.map, id = _a.id;
+            /** @type {?} */
+            var entity = state.entities[id];
+            if (!entity) {
+                return DidMutate.None;
+            }
+            /** @type {?} */
+            var updatedEntity = map(entity);
+            return updateOneMutably({
+                id: id,
+                changes: updatedEntity,
+            }, state);
+        }
+        /**
          * @param {?} entity
          * @param {?} state
          * @return {?}
@@ -1009,6 +1048,7 @@
             updateMany: createStateOperator(updateManyMutably),
             upsertMany: createStateOperator(upsertManyMutably),
             map: createStateOperator(mapMutably),
+            mapOne: createStateOperator(mapOneMutably),
         };
     }
 
@@ -1080,6 +1120,28 @@
         UpdateNum.prototype.id;
         /** @type {?} */
         UpdateNum.prototype.changes;
+    }
+    /**
+     * @record
+     * @template T
+     */
+    function EntityMapOneNum() { }
+    if (false) {
+        /** @type {?} */
+        EntityMapOneNum.prototype.id;
+        /** @type {?} */
+        EntityMapOneNum.prototype.map;
+    }
+    /**
+     * @record
+     * @template T
+     */
+    function EntityMapOneStr() { }
+    if (false) {
+        /** @type {?} */
+        EntityMapOneStr.prototype.id;
+        /** @type {?} */
+        EntityMapOneStr.prototype.map;
     }
     /**
      * @record
@@ -1214,6 +1276,13 @@
          * @return {?}
          */
         EntityStateAdapter.prototype.upsertMany = function (entities, state) { };
+        /**
+         * @template S
+         * @param {?} map
+         * @param {?} state
+         * @return {?}
+         */
+        EntityStateAdapter.prototype.mapOne = function (map, state) { };
         /**
          * @template S
          * @param {?} map

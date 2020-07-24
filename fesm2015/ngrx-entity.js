@@ -373,6 +373,24 @@ function createUnsortedStateAdapter(selectId) {
         return updateManyMutably(updates, state);
     }
     /**
+     * @param {?} __0
+     * @param {?} state
+     * @return {?}
+     */
+    function mapOneMutably({ map, id }, state) {
+        /** @type {?} */
+        const entity = state.entities[id];
+        if (!entity) {
+            return DidMutate.None;
+        }
+        /** @type {?} */
+        const updatedEntity = map(entity);
+        return updateOneMutably({
+            id: id,
+            changes: updatedEntity,
+        }, state);
+    }
+    /**
      * @param {?} entity
      * @param {?} state
      * @return {?}
@@ -429,6 +447,7 @@ function createUnsortedStateAdapter(selectId) {
         removeOne: createStateOperator(removeOneMutably),
         removeMany: createStateOperator(removeManyMutably),
         map: createStateOperator(mapMutably),
+        mapOne: createStateOperator(mapOneMutably),
     };
 }
 
@@ -607,6 +626,24 @@ function createSortedStateAdapter(selectId, sort) {
         return updateManyMutably(updates, state);
     }
     /**
+     * @param {?} __0
+     * @param {?} state
+     * @return {?}
+     */
+    function mapOneMutably({ map, id }, state) {
+        /** @type {?} */
+        const entity = state.entities[id];
+        if (!entity) {
+            return DidMutate.None;
+        }
+        /** @type {?} */
+        const updatedEntity = map(entity);
+        return updateOneMutably({
+            id: id,
+            changes: updatedEntity,
+        }, state);
+    }
+    /**
      * @param {?} entity
      * @param {?} state
      * @return {?}
@@ -709,6 +746,7 @@ function createSortedStateAdapter(selectId, sort) {
         updateMany: createStateOperator(updateManyMutably),
         upsertMany: createStateOperator(upsertManyMutably),
         map: createStateOperator(mapMutably),
+        mapOne: createStateOperator(mapOneMutably),
     };
 }
 
@@ -777,6 +815,28 @@ if (false) {
     UpdateNum.prototype.id;
     /** @type {?} */
     UpdateNum.prototype.changes;
+}
+/**
+ * @record
+ * @template T
+ */
+function EntityMapOneNum() { }
+if (false) {
+    /** @type {?} */
+    EntityMapOneNum.prototype.id;
+    /** @type {?} */
+    EntityMapOneNum.prototype.map;
+}
+/**
+ * @record
+ * @template T
+ */
+function EntityMapOneStr() { }
+if (false) {
+    /** @type {?} */
+    EntityMapOneStr.prototype.id;
+    /** @type {?} */
+    EntityMapOneStr.prototype.map;
 }
 /**
  * @record
@@ -911,6 +971,13 @@ if (false) {
      * @return {?}
      */
     EntityStateAdapter.prototype.upsertMany = function (entities, state) { };
+    /**
+     * @template S
+     * @param {?} map
+     * @param {?} state
+     * @return {?}
+     */
+    EntityStateAdapter.prototype.mapOne = function (map, state) { };
     /**
      * @template S
      * @param {?} map
