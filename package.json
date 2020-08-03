@@ -40,14 +40,14 @@
     "migrations": "./migrations/migration.json"
   },
   "sideEffects": false,
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "main": "bundles/ngrx-entity.umd.js",
   "module": "fesm2015/ngrx-entity.js",
   "es2015": "fesm2015/ngrx-entity.js",
   "esm2015": "esm2015/ngrx-entity.js",
   "fesm2015": "fesm2015/ngrx-entity.js",
   "typings": "ngrx-entity.d.ts",
-  "metadata": "ngrx-entity.metadata.json",
-  "dependencies": {
-    "tslib": "^2.0.0"
-  }
+  "metadata": "ngrx-entity.metadata.json"
 }
