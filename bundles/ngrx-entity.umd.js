@@ -748,7 +748,6 @@
             removeAll: removeAll,
             addOne: createStateOperator(addOneMutably),
             addMany: createStateOperator(addManyMutably),
-            addAll: createStateOperator(setAllMutably),
             setAll: createStateOperator(setAllMutably),
             setOne: createStateOperator(setOneMutably),
             updateOne: createStateOperator(updateOneMutably),
@@ -1050,7 +1049,6 @@
             addOne: createStateOperator(addOneMutably),
             updateOne: createStateOperator(updateOneMutably),
             upsertOne: createStateOperator(upsertOneMutably),
-            addAll: createStateOperator(setAllMutably),
             setAll: createStateOperator(setAllMutably),
             setOne: createStateOperator(setOneMutably),
             addMany: createStateOperator(addManyMutably),
@@ -1194,14 +1192,6 @@
          * @return {?}
          */
         EntityStateAdapter.prototype.addMany = function (entities, state) { };
-        /**
-         * @deprecated addAll has been renamed. Use setAll instead.
-         * @template S
-         * @param {?} entities
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.addAll = function (entities, state) { };
         /**
          * @template S
          * @param {?} entities
