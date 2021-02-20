@@ -1,33 +1,16 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store'), require('@angular/core')) :
     typeof define === 'function' && define.amd ? define('@ngrx/entity', ['exports', '@ngrx/store', '@angular/core'], factory) :
-    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}), global.ngrx.store, global.ng.core));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.entity = {}), global.ngrx.store, global.ng.core));
 }(this, (function (exports, store, core) { 'use strict';
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/entity_state.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @template V
-     * @return {?}
-     */
     function getInitialEntityState() {
         return {
             ids: [],
             entities: {},
         };
     }
-    /**
-     * @template V
-     * @return {?}
-     */
     function createInitialStateFactory() {
-        /**
-         * @param {?=} additionalState
-         * @return {?}
-         */
         function getInitialState(additionalState) {
             if (additionalState === void 0) { additionalState = {}; }
             return Object.assign(getInitialEntityState(), additionalState);
@@ -35,45 +18,12 @@
         return { getInitialState: getInitialState };
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/state_selectors.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @template T
-     * @return {?}
-     */
     function createSelectorsFactory() {
-        /**
-         * @param {?=} selectState
-         * @return {?}
-         */
         function getSelectors(selectState) {
-            /** @type {?} */
-            var selectIds = ( /**
-             * @param {?} state
-             * @return {?}
-             */function (state) { return state.ids; });
-            /** @type {?} */
-            var selectEntities = ( /**
-             * @param {?} state
-             * @return {?}
-             */function (state) { return state.entities; });
-            /** @type {?} */
-            var selectAll = store.createSelector(selectIds, selectEntities, ( /**
-             * @param {?} ids
-             * @param {?} entities
-             * @return {?}
-             */function (ids, entities) { return ids.map(( /**
-             * @param {?} id
-             * @return {?}
-             */function (id) { return (( /** @type {?} */(entities)))[id]; })); }));
-            /** @type {?} */
-            var selectTotal = store.createSelector(selectIds, ( /**
-             * @param {?} ids
-             * @return {?}
-             */function (ids) { return ids.length; }));
+            var selectIds = function (state) { return state.ids; };
+            var selectEntities = function (state) { return state.entities; };
+            var selectAll = store.createSelector(selectIds, selectEntities, function (ids, entities) { return ids.map(function (id) { return entities[id]; }); });
+            var selectTotal = store.createSelector(selectIds, function (ids) { return ids.length; });
             if (!selectState) {
                 return {
                     selectIds: selectIds,
@@ -393,38 +343,18 @@
         return value;
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/state_adapter.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /** @enum {number} */
-    var DidMutate = {
-        EntitiesOnly: 0,
-        Both: 1,
-        None: 2,
-    };
-    DidMutate[DidMutate.EntitiesOnly] = 'EntitiesOnly';
-    DidMutate[DidMutate.Both] = 'Both';
-    DidMutate[DidMutate.None] = 'None';
-    /**
-     * @template V, R
-     * @param {?} mutator
-     * @return {?}
-     */
+    var DidMutate;
+    (function (DidMutate) {
+        DidMutate[DidMutate["EntitiesOnly"] = 0] = "EntitiesOnly";
+        DidMutate[DidMutate["Both"] = 1] = "Both";
+        DidMutate[DidMutate["None"] = 2] = "None";
+    })(DidMutate || (DidMutate = {}));
     function createStateOperator(mutator) {
-        return ( /**
-         * @template S
-         * @param {?} arg
-         * @param {?} state
-         * @return {?}
-         */function operation(arg, state) {
-            /** @type {?} */
+        return function operation(arg, state) {
             var clonedEntityState = {
                 ids: __spread(state.ids),
                 entities: Object.assign({}, state.entities),
             };
-            /** @type {?} */
             var didMutate = mutator(arg, clonedEntityState);
             if (didMutate === DidMutate.Both) {
                 return Object.assign({}, state, clonedEntityState);
@@ -433,22 +363,10 @@
                 return Object.assign(Object.assign({}, state), { entities: clonedEntityState.entities });
             }
             return state;
-        });
+        };
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/utils.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @template T
-     * @param {?} entity
-     * @param {?} selectId
-     * @return {?}
-     */
     function selectIdValue(entity, selectId) {
-        /** @type {?} */
         var key = selectId(entity);
         if (core.isDevMode() && key === undefined) {
             console.warn('@ngrx/entity: The entity passed to the `selectId` implementation returned undefined.', 'You should probably provide your own `selectId` implementation.', 'The entity that was passed:', entity, 'The `selectId` implementation:', selectId.toString());
@@ -456,19 +374,8 @@
         return key;
     }
 
-    /**
-     * @template T
-     * @param {?} selectId
-     * @return {?}
-     */
     function createUnsortedStateAdapter(selectId) {
-        /**
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
         function addOneMutably(entity, state) {
-            /** @type {?} */
             var key = selectIdValue(entity, selectId);
             if (key in state.entities) {
                 return DidMutate.None;
@@ -477,14 +384,8 @@
             state.entities[key] = entity;
             return DidMutate.Both;
         }
-        /**
-         * @param {?} entities
-         * @param {?} state
-         * @return {?}
-         */
         function addManyMutably(entities, state) {
             var e_1, _a;
-            /** @type {?} */
             var didMutate = false;
             try {
                 for (var entities_1 = __values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
@@ -501,24 +402,13 @@
             }
             return didMutate ? DidMutate.Both : DidMutate.None;
         }
-        /**
-         * @param {?} entities
-         * @param {?} state
-         * @return {?}
-         */
         function setAllMutably(entities, state) {
             state.ids = [];
             state.entities = {};
             addManyMutably(entities, state);
             return DidMutate.Both;
         }
-        /**
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
         function setOneMutably(entity, state) {
-            /** @type {?} */
             var key = selectIdValue(entity, selectId);
             if (key in state.entities) {
                 state.entities[key] = entity;
@@ -528,70 +418,31 @@
             state.entities[key] = entity;
             return DidMutate.Both;
         }
-        /**
-         * @param {?} key
-         * @param {?} state
-         * @return {?}
-         */
         function removeOneMutably(key, state) {
             return removeManyMutably([key], state);
         }
-        /**
-         * @param {?} keysOrPredicate
-         * @param {?} state
-         * @return {?}
-         */
         function removeManyMutably(keysOrPredicate, state) {
-            /** @type {?} */
             var keys = keysOrPredicate instanceof Array
                 ? keysOrPredicate
-                : state.ids.filter(( /**
-                 * @param {?} key
-                 * @return {?}
-                 */function (key) { return keysOrPredicate(state.entities[key]); }));
-            /** @type {?} */
+                : state.ids.filter(function (key) { return keysOrPredicate(state.entities[key]); });
             var didMutate = keys
-                .filter(( /**
-         * @param {?} key
-         * @return {?}
-         */function (key) { return key in state.entities; }))
-                .map(( /**
-         * @param {?} key
-         * @return {?}
-         */function (key) { return delete state.entities[key]; })).length > 0;
+                .filter(function (key) { return key in state.entities; })
+                .map(function (key) { return delete state.entities[key]; }).length > 0;
             if (didMutate) {
-                state.ids = state.ids.filter(( /**
-                 * @param {?} id
-                 * @return {?}
-                 */function (id) { return id in state.entities; }));
+                state.ids = state.ids.filter(function (id) { return id in state.entities; });
             }
             return didMutate ? DidMutate.Both : DidMutate.None;
         }
-        /**
-         * @template S
-         * @param {?} state
-         * @return {?}
-         */
         function removeAll(state) {
             return Object.assign({}, state, {
                 ids: [],
                 entities: {},
             });
         }
-        /**
-         * @param {?} keys
-         * @param {?} update
-         * @param {?} state
-         * @return {?}
-         */
         function takeNewKey(keys, update, state) {
-            /** @type {?} */
             var original = state.entities[update.id];
-            /** @type {?} */
             var updated = Object.assign({}, original, update.changes);
-            /** @type {?} */
             var newKey = selectIdValue(updated, selectId);
-            /** @type {?} */
             var hasNewKey = newKey !== update.id;
             if (hasNewKey) {
                 keys[update.id] = newKey;
@@ -600,40 +451,18 @@
             state.entities[newKey] = updated;
             return hasNewKey;
         }
-        /**
-         * @param {?} update
-         * @param {?} state
-         * @return {?}
-         */
         function updateOneMutably(update, state) {
             return updateManyMutably([update], state);
         }
-        /**
-         * @param {?} updates
-         * @param {?} state
-         * @return {?}
-         */
         function updateManyMutably(updates, state) {
-            /** @type {?} */
             var newKeys = {};
-            updates = updates.filter(( /**
-             * @param {?} update
-             * @return {?}
-             */function (update) { return update.id in state.entities; }));
-            /** @type {?} */
+            updates = updates.filter(function (update) { return update.id in state.entities; });
             var didMutateEntities = updates.length > 0;
             if (didMutateEntities) {
-                /** @type {?} */
-                var didMutateIds = updates.filter(( /**
-                 * @param {?} update
-                 * @return {?}
-                 */function (update) { return takeNewKey(newKeys, update, state); })).length >
+                var didMutateIds = updates.filter(function (update) { return takeNewKey(newKeys, update, state); }).length >
                     0;
                 if (didMutateIds) {
-                    state.ids = state.ids.map(( /**
-                     * @param {?} id
-                     * @return {?}
-                     */function (id) { return newKeys[id] || id; }));
+                    state.ids = state.ids.map(function (id) { return newKeys[id] || id; });
                     return DidMutate.Both;
                 }
                 else {
@@ -642,77 +471,42 @@
             }
             return DidMutate.None;
         }
-        /**
-         * @param {?} map
-         * @param {?} state
-         * @return {?}
-         */
         function mapMutably(map, state) {
-            /** @type {?} */
-            var changes = state.ids.reduce(( /**
-             * @param {?} changes
-             * @param {?} id
-             * @return {?}
-             */function (changes, id) {
-                /** @type {?} */
+            var changes = state.ids.reduce(function (changes, id) {
                 var change = map(state.entities[id]);
                 if (change !== state.entities[id]) {
                     changes.push({ id: id, changes: change });
                 }
                 return changes;
-            }), []);
-            /** @type {?} */
-            var updates = changes.filter(( /**
-             * @param {?} __0
-             * @return {?}
-             */function (_a) {
+            }, []);
+            var updates = changes.filter(function (_a) {
                 var id = _a.id;
                 return id in state.entities;
-            }));
+            });
             return updateManyMutably(updates, state);
         }
-        /**
-         * @param {?} __0
-         * @param {?} state
-         * @return {?}
-         */
         function mapOneMutably(_a, state) {
             var map = _a.map, id = _a.id;
-            /** @type {?} */
             var entity = state.entities[id];
             if (!entity) {
                 return DidMutate.None;
             }
-            /** @type {?} */
             var updatedEntity = map(entity);
             return updateOneMutably({
                 id: id,
                 changes: updatedEntity,
             }, state);
         }
-        /**
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
         function upsertOneMutably(entity, state) {
             return upsertManyMutably([entity], state);
         }
-        /**
-         * @param {?} entities
-         * @param {?} state
-         * @return {?}
-         */
         function upsertManyMutably(entities, state) {
             var e_2, _a;
-            /** @type {?} */
             var added = [];
-            /** @type {?} */
             var updated = [];
             try {
                 for (var entities_2 = __values(entities), entities_2_1 = entities_2.next(); !entities_2_1.done; entities_2_1 = entities_2.next()) {
                     var entity = entities_2_1.value;
-                    /** @type {?} */
                     var id = selectIdValue(entity, selectId);
                     if (id in state.entities) {
                         updated.push({ id: id, changes: entity });
@@ -729,9 +523,7 @@
                 }
                 finally { if (e_2) throw e_2.error; }
             }
-            /** @type {?} */
             var didMutateByUpdated = updateManyMutably(updated, state);
-            /** @type {?} */
             var didMutateByAdded = addManyMutably(added, state);
             switch (true) {
                 case didMutateByAdded === DidMutate.None &&
@@ -761,33 +553,13 @@
         };
     }
 
-    /**
-     * @template T
-     * @param {?} selectId
-     * @param {?} sort
-     * @return {?}
-     */
     function createSortedStateAdapter(selectId, sort) {
         var _a = createUnsortedStateAdapter(selectId), removeOne = _a.removeOne, removeMany = _a.removeMany, removeAll = _a.removeAll;
-        /**
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
         function addOneMutably(entity, state) {
             return addManyMutably([entity], state);
         }
-        /**
-         * @param {?} newModels
-         * @param {?} state
-         * @return {?}
-         */
         function addManyMutably(newModels, state) {
-            /** @type {?} */
-            var models = newModels.filter(( /**
-             * @param {?} model
-             * @return {?}
-             */function (model) { return !(selectIdValue(model, selectId) in state.entities); }));
+            var models = newModels.filter(function (model) { return !(selectIdValue(model, selectId) in state.entities); });
             if (models.length === 0) {
                 return DidMutate.None;
             }
@@ -796,30 +568,16 @@
                 return DidMutate.Both;
             }
         }
-        /**
-         * @param {?} models
-         * @param {?} state
-         * @return {?}
-         */
         function setAllMutably(models, state) {
             state.entities = {};
             state.ids = [];
             addManyMutably(models, state);
             return DidMutate.Both;
         }
-        /**
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
         function setOneMutably(entity, state) {
-            /** @type {?} */
             var id = selectIdValue(entity, selectId);
             if (id in state.entities) {
-                state.ids = state.ids.filter(( /**
-                 * @param {?} val
-                 * @return {?}
-                 */function (val) { return val !== id; }));
+                state.ids = state.ids.filter(function (val) { return val !== id; });
                 merge([entity], state);
                 return DidMutate.Both;
             }
@@ -827,61 +585,31 @@
                 return addOneMutably(entity, state);
             }
         }
-        /**
-         * @param {?} update
-         * @param {?} state
-         * @return {?}
-         */
         function updateOneMutably(update, state) {
             return updateManyMutably([update], state);
         }
-        /**
-         * @param {?} models
-         * @param {?} update
-         * @param {?} state
-         * @return {?}
-         */
         function takeUpdatedModel(models, update, state) {
             if (!(update.id in state.entities)) {
                 return false;
             }
-            /** @type {?} */
             var original = state.entities[update.id];
-            /** @type {?} */
             var updated = Object.assign({}, original, update.changes);
-            /** @type {?} */
             var newKey = selectIdValue(updated, selectId);
             delete state.entities[update.id];
             models.push(updated);
             return newKey !== update.id;
         }
-        /**
-         * @param {?} updates
-         * @param {?} state
-         * @return {?}
-         */
         function updateManyMutably(updates, state) {
-            /** @type {?} */
             var models = [];
-            /** @type {?} */
-            var didMutateIds = updates.filter(( /**
-             * @param {?} update
-             * @return {?}
-             */function (update) { return takeUpdatedModel(models, update, state); }))
+            var didMutateIds = updates.filter(function (update) { return takeUpdatedModel(models, update, state); })
                 .length > 0;
             if (models.length === 0) {
                 return DidMutate.None;
             }
             else {
-                /** @type {?} */
                 var originalIds_1 = state.ids;
-                /** @type {?} */
                 var updatedIndexes_1 = [];
-                state.ids = state.ids.filter(( /**
-                 * @param {?} id
-                 * @param {?} index
-                 * @return {?}
-                 */function (id, index) {
+                state.ids = state.ids.filter(function (id, index) {
                     if (id in state.entities) {
                         return true;
                     }
@@ -889,13 +617,10 @@
                         updatedIndexes_1.push(index);
                         return false;
                     }
-                }));
+                });
                 merge(models, state);
                 if (!didMutateIds &&
-                    updatedIndexes_1.every(( /**
-                     * @param {?} i
-                     * @return {?}
-                     */function (i) { return state.ids[i] === originalIds_1[i]; }))) {
+                    updatedIndexes_1.every(function (i) { return state.ids[i] === originalIds_1[i]; })) {
                     return DidMutate.EntitiesOnly;
                 }
                 else {
@@ -903,69 +628,38 @@
                 }
             }
         }
-        /**
-         * @param {?} updatesOrMap
-         * @param {?} state
-         * @return {?}
-         */
         function mapMutably(updatesOrMap, state) {
-            /** @type {?} */
-            var updates = state.ids.reduce(( /**
-             * @param {?} changes
-             * @param {?} id
-             * @return {?}
-             */function (changes, id) {
-                /** @type {?} */
+            var updates = state.ids.reduce(function (changes, id) {
                 var change = updatesOrMap(state.entities[id]);
                 if (change !== state.entities[id]) {
                     changes.push({ id: id, changes: change });
                 }
                 return changes;
-            }), []);
+            }, []);
             return updateManyMutably(updates, state);
         }
-        /**
-         * @param {?} __0
-         * @param {?} state
-         * @return {?}
-         */
         function mapOneMutably(_a, state) {
             var map = _a.map, id = _a.id;
-            /** @type {?} */
             var entity = state.entities[id];
             if (!entity) {
                 return DidMutate.None;
             }
-            /** @type {?} */
             var updatedEntity = map(entity);
             return updateOneMutably({
                 id: id,
                 changes: updatedEntity,
             }, state);
         }
-        /**
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
         function upsertOneMutably(entity, state) {
             return upsertManyMutably([entity], state);
         }
-        /**
-         * @param {?} entities
-         * @param {?} state
-         * @return {?}
-         */
         function upsertManyMutably(entities, state) {
             var e_1, _a;
-            /** @type {?} */
             var added = [];
-            /** @type {?} */
             var updated = [];
             try {
                 for (var entities_1 = __values(entities), entities_1_1 = entities_1.next(); !entities_1_1.done; entities_1_1 = entities_1.next()) {
                     var entity = entities_1_1.value;
-                    /** @type {?} */
                     var id = selectIdValue(entity, selectId);
                     if (id in state.entities) {
                         updated.push({ id: id, changes: entity });
@@ -982,9 +676,7 @@
                 }
                 finally { if (e_1) throw e_1.error; }
             }
-            /** @type {?} */
             var didMutateByUpdated = updateManyMutably(updated, state);
-            /** @type {?} */
             var didMutateByAdded = addManyMutably(added, state);
             switch (true) {
                 case didMutateByAdded === DidMutate.None &&
@@ -997,27 +689,15 @@
                     return DidMutate.EntitiesOnly;
             }
         }
-        /**
-         * @param {?} models
-         * @param {?} state
-         * @return {?}
-         */
         function merge(models, state) {
             models.sort(sort);
-            /** @type {?} */
             var ids = [];
-            /** @type {?} */
             var i = 0;
-            /** @type {?} */
             var j = 0;
             while (i < models.length && j < state.ids.length) {
-                /** @type {?} */
                 var model = models[i];
-                /** @type {?} */
                 var modelId = selectIdValue(model, selectId);
-                /** @type {?} */
                 var entityId = state.ids[j];
-                /** @type {?} */
                 var entity = state.entities[entityId];
                 if (sort(model, entity) <= 0) {
                     ids.push(modelId);
@@ -1034,13 +714,9 @@
             else {
                 state.ids = ids.concat(state.ids.slice(j));
             }
-            models.forEach(( /**
-             * @param {?} model
-             * @param {?} i
-             * @return {?}
-             */function (model, i) {
+            models.forEach(function (model, i) {
                 state.entities[selectId(model)] = model;
-            }));
+            });
         }
         return {
             removeOne: removeOne,
@@ -1059,27 +735,11 @@
         };
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/create_adapter.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @template T
-     * @param {?=} options
-     * @return {?}
-     */
     function createEntityAdapter(options) {
         if (options === void 0) { options = {}; }
-        var _a = Object.assign({ sortComparer: false, selectId: ( /**
-                 * @param {?} instance
-                 * @return {?}
-                 */function (instance) { return instance.id; }) }, options), selectId = _a.selectId, sortComparer = _a.sortComparer;
-        /** @type {?} */
+        var _a = Object.assign({ sortComparer: false, selectId: function (instance) { return instance.id; } }, options), selectId = _a.selectId, sortComparer = _a.sortComparer;
         var stateFactory = createInitialStateFactory();
-        /** @type {?} */
         var selectorsFactory = createSelectorsFactory();
-        /** @type {?} */
         var stateAdapter = sortComparer
             ? createSortedStateAdapter(selectId, sortComparer)
             : createUnsortedStateAdapter(selectId);
@@ -1087,278 +747,20 @@
             sortComparer: sortComparer }, stateFactory), selectorsFactory), stateAdapter);
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/models.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @record
-     * @template T
-     */
-    function DictionaryNum() { }
-    /**
-     * @abstract
-     * @template T
-     */
     var Dictionary = /** @class */ (function () {
         function Dictionary() {
         }
         return Dictionary;
     }());
-    /**
-     * @record
-     * @template T
-     */
-    function UpdateStr() { }
-    if (false) {
-        /** @type {?} */
-        UpdateStr.prototype.id;
-        /** @type {?} */
-        UpdateStr.prototype.changes;
-    }
-    /**
-     * @record
-     * @template T
-     */
-    function UpdateNum() { }
-    if (false) {
-        /** @type {?} */
-        UpdateNum.prototype.id;
-        /** @type {?} */
-        UpdateNum.prototype.changes;
-    }
-    /**
-     * @record
-     * @template T
-     */
-    function EntityMapOneNum() { }
-    if (false) {
-        /** @type {?} */
-        EntityMapOneNum.prototype.id;
-        /** @type {?} */
-        EntityMapOneNum.prototype.map;
-    }
-    /**
-     * @record
-     * @template T
-     */
-    function EntityMapOneStr() { }
-    if (false) {
-        /** @type {?} */
-        EntityMapOneStr.prototype.id;
-        /** @type {?} */
-        EntityMapOneStr.prototype.map;
-    }
-    /**
-     * @record
-     * @template T
-     */
-    function EntityState() { }
-    if (false) {
-        /** @type {?} */
-        EntityState.prototype.ids;
-        /** @type {?} */
-        EntityState.prototype.entities;
-    }
-    /**
-     * @record
-     * @template T
-     */
-    function EntityDefinition() { }
-    if (false) {
-        /** @type {?} */
-        EntityDefinition.prototype.selectId;
-        /** @type {?} */
-        EntityDefinition.prototype.sortComparer;
-    }
-    /**
-     * @record
-     * @template T
-     */
-    function EntityStateAdapter() { }
-    if (false) {
-        /**
-         * @template S
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.addOne = function (entity, state) { };
-        /**
-         * @template S
-         * @param {?} entities
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.addMany = function (entities, state) { };
-        /**
-         * @template S
-         * @param {?} entities
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.setAll = function (entities, state) { };
-        /**
-         * @template S
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.setOne = function (entity, state) { };
-        /**
-         * @template S
-         * @param {?} key
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.removeOne = function (key, state) { };
-        /**
-         * @template S
-         * @param {?} key
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.removeOne = function (key, state) { };
-        /**
-         * @template S
-         * @param {?} keys
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.removeMany = function (keys, state) { };
-        /**
-         * @template S
-         * @param {?} keys
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.removeMany = function (keys, state) { };
-        /**
-         * @template S
-         * @param {?} predicate
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.removeMany = function (predicate, state) { };
-        /**
-         * @template S
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.removeAll = function (state) { };
-        /**
-         * @template S
-         * @param {?} update
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.updateOne = function (update, state) { };
-        /**
-         * @template S
-         * @param {?} updates
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.updateMany = function (updates, state) { };
-        /**
-         * @template S
-         * @param {?} entity
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.upsertOne = function (entity, state) { };
-        /**
-         * @template S
-         * @param {?} entities
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.upsertMany = function (entities, state) { };
-        /**
-         * @template S
-         * @param {?} map
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.mapOne = function (map, state) { };
-        /**
-         * @template S
-         * @param {?} map
-         * @param {?} state
-         * @return {?}
-         */
-        EntityStateAdapter.prototype.map = function (map, state) { };
-    }
-    /**
-     * @record
-     * @template T, V
-     */
-    function EntitySelectors() { }
-    if (false) {
-        /** @type {?} */
-        EntitySelectors.prototype.selectIds;
-        /** @type {?} */
-        EntitySelectors.prototype.selectEntities;
-        /** @type {?} */
-        EntitySelectors.prototype.selectAll;
-        /** @type {?} */
-        EntitySelectors.prototype.selectTotal;
-    }
-    /**
-     * @record
-     * @template T
-     */
-    function EntityAdapter() { }
-    if (false) {
-        /** @type {?} */
-        EntityAdapter.prototype.selectId;
-        /** @type {?} */
-        EntityAdapter.prototype.sortComparer;
-        /**
-         * @return {?}
-         */
-        EntityAdapter.prototype.getInitialState = function () { };
-        /**
-         * @template S
-         * @param {?} state
-         * @return {?}
-         */
-        EntityAdapter.prototype.getInitialState = function (state) { };
-        /**
-         * @return {?}
-         */
-        EntityAdapter.prototype.getSelectors = function () { };
-        /**
-         * @template V
-         * @param {?} selectState
-         * @return {?}
-         */
-        EntityAdapter.prototype.getSelectors = function (selectState) { };
-    }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: src/index.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * DO NOT EDIT
+     *
+     * This file is automatically generated at build
      */
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: public_api.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: index.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: ngrx-entity.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated bundle index. Do not edit.
      */
 
     exports.Dictionary = Dictionary;
