@@ -429,6 +429,17 @@
             state.entities[key] = entity;
             return DidMutate.Both;
         }
+        function setManyMutably(entities, state) {
+            var didMutateSetOne = entities.map(function (entity) { return setOneMutably(entity, state); });
+            switch (true) {
+                case didMutateSetOne.some(function (didMutate) { return didMutate === DidMutate.Both; }):
+                    return DidMutate.Both;
+                case didMutateSetOne.some(function (didMutate) { return didMutate === DidMutate.EntitiesOnly; }):
+                    return DidMutate.EntitiesOnly;
+                default:
+                    return DidMutate.None;
+            }
+        }
         function removeOneMutably(key, state) {
             return removeManyMutably([key], state);
         }
@@ -553,6 +564,7 @@
             addMany: createStateOperator(addManyMutably),
             setAll: createStateOperator(setAllMutably),
             setOne: createStateOperator(setOneMutably),
+            setMany: createStateOperator(setManyMutably),
             updateOne: createStateOperator(updateOneMutably),
             updateMany: createStateOperator(updateManyMutably),
             upsertOne: createStateOperator(upsertOneMutably),
@@ -594,6 +606,17 @@
             }
             else {
                 return addOneMutably(entity, state);
+            }
+        }
+        function setManyMutably(entities, state) {
+            var didMutateSetOne = entities.map(function (entity) { return setOneMutably(entity, state); });
+            switch (true) {
+                case didMutateSetOne.some(function (didMutate) { return didMutate === DidMutate.Both; }):
+                    return DidMutate.Both;
+                case didMutateSetOne.some(function (didMutate) { return didMutate === DidMutate.EntitiesOnly; }):
+                    return DidMutate.EntitiesOnly;
+                default:
+                    return DidMutate.None;
             }
         }
         function updateOneMutably(update, state) {
@@ -738,6 +761,7 @@
             upsertOne: createStateOperator(upsertOneMutably),
             setAll: createStateOperator(setAllMutably),
             setOne: createStateOperator(setOneMutably),
+            setMany: createStateOperator(setManyMutably),
             addMany: createStateOperator(addManyMutably),
             updateMany: createStateOperator(updateManyMutably),
             upsertMany: createStateOperator(upsertManyMutably),
