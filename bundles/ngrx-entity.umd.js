@@ -778,8 +778,7 @@
         var stateAdapter = sortComparer
             ? createSortedStateAdapter(selectId, sortComparer)
             : createUnsortedStateAdapter(selectId);
-        return Object.assign(Object.assign(Object.assign({ selectId: selectId,
-            sortComparer: sortComparer }, stateFactory), selectorsFactory), stateAdapter);
+        return Object.assign(Object.assign(Object.assign({ selectId: selectId, sortComparer: sortComparer }, stateFactory), selectorsFactory), stateAdapter);
     }
 
     var Dictionary = /** @class */ (function () {
