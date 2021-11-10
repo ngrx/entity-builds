@@ -48,14 +48,17 @@ function createStateOperator(mutator) {
     return function operation(arg, state) {
         const clonedEntityState = {
             ids: [...state.ids],
-            entities: Object.assign({}, state.entities),
+            entities: { ...state.entities },
         };
         const didMutate = mutator(arg, clonedEntityState);
         if (didMutate === DidMutate.Both) {
             return Object.assign({}, state, clonedEntityState);
         }
         if (didMutate === DidMutate.EntitiesOnly) {
-            return Object.assign(Object.assign({}, state), { entities: clonedEntityState.entities });
+            return {
+                ...state,
+                entities: clonedEntityState.entities,
+            };
         }
         return state;
     };
@@ -417,14 +420,23 @@ function createSortedStateAdapter(selectId, sort) {
 }
 
 function createEntityAdapter(options = {}) {
-    const { selectId, sortComparer } = Object.assign({ sortComparer: false, selectId: (instance) => instance.id }, options);
+    const { selectId, sortComparer } = {
+        sortComparer: false,
+        selectId: (instance) => instance.id,
+        ...options,
+    };
     const stateFactory = createInitialStateFactory();
     const selectorsFactory = createSelectorsFactory();
     const stateAdapter = sortComparer
         ? createSortedStateAdapter(selectId, sortComparer)
         : createUnsortedStateAdapter(selectId);
-    return Object.assign(Object.assign(Object.assign({ selectId,
-        sortComparer }, stateFactory), selectorsFactory), stateAdapter);
+    return {
+        selectId,
+        sortComparer,
+        ...stateFactory,
+        ...selectorsFactory,
+        ...stateAdapter,
+    };
 }
 
 class Dictionary {
@@ -441,4 +453,4 @@ class Dictionary {
  */
 
 export { Dictionary, createEntityAdapter };
-//# sourceMappingURL=ngrx-entity.js.map
+//# sourceMappingURL=ngrx-entity.mjs.map

@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/ngrx/platform#readme",
   "peerDependencies": {
-    "@angular/core": "^13.0.0-rc.0",
+    "@angular/core": "^13.0.0",
     "@ngrx/store": "13.0.0-beta.0",
     "rxjs": "^6.5.3 || ^7.4.0"
   },
@@ -43,10 +43,23 @@
   "dependencies": {
     "tslib": "^2.0.0"
   },
-  "main": "bundles/ngrx-entity.umd.js",
-  "module": "fesm2015/ngrx-entity.js",
-  "es2015": "fesm2015/ngrx-entity.js",
-  "esm2015": "esm2015/ngrx-entity.js",
-  "fesm2015": "fesm2015/ngrx-entity.js",
-  "typings": "ngrx-entity.d.ts"
+  "module": "fesm2015/ngrx-entity.mjs",
+  "es2020": "fesm2020/ngrx-entity.mjs",
+  "esm2020": "esm2020/ngrx-entity.mjs",
+  "fesm2020": "fesm2020/ngrx-entity.mjs",
+  "fesm2015": "fesm2015/ngrx-entity.mjs",
+  "typings": "ngrx-entity.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./ngrx-entity.d.ts",
+      "esm2020": "./esm2020/ngrx-entity.mjs",
+      "es2020": "./fesm2020/ngrx-entity.mjs",
+      "es2015": "./fesm2015/ngrx-entity.mjs",
+      "node": "./fesm2015/ngrx-entity.mjs",
+      "default": "./fesm2020/ngrx-entity.mjs"
+    }
+  }
 }
