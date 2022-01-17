@@ -417,7 +417,11 @@ function createSortedStateAdapter(selectId, sort) {
 }
 
 function createEntityAdapter(options = {}) {
-    const { selectId, sortComparer } = Object.assign({ sortComparer: false, selectId: (instance) => instance.id }, options);
+    var _a, _b;
+    const { selectId, sortComparer } = {
+        selectId: (_a = options.selectId) !== null && _a !== void 0 ? _a : ((entity) => entity.id),
+        sortComparer: (_b = options.sortComparer) !== null && _b !== void 0 ? _b : false,
+    };
     const stateFactory = createInitialStateFactory();
     const selectorsFactory = createSelectorsFactory();
     const stateAdapter = sortComparer
