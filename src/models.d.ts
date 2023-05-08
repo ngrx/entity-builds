@@ -1,7 +1,7 @@
-export declare type Comparer<T> = (a: T, b: T) => number;
-export declare type IdSelectorStr<T> = (model: T) => string;
-export declare type IdSelectorNum<T> = (model: T) => number;
-export declare type IdSelector<T> = IdSelectorStr<T> | IdSelectorNum<T>;
+export type Comparer<T> = (a: T, b: T) => number;
+export type IdSelectorStr<T> = (model: T) => string;
+export type IdSelectorNum<T> = (model: T) => number;
+export type IdSelector<T> = IdSelectorStr<T> | IdSelectorNum<T>;
 export interface DictionaryNum<T> {
     [id: number]: T | undefined;
 }
@@ -16,9 +16,9 @@ export interface UpdateNum<T> {
     id: number;
     changes: Partial<T>;
 }
-export declare type Update<T> = UpdateStr<T> | UpdateNum<T>;
-export declare type Predicate<T> = (entity: T) => boolean;
-export declare type EntityMap<T> = (entity: T) => T;
+export type Update<T> = UpdateStr<T> | UpdateNum<T>;
+export type Predicate<T> = (entity: T) => boolean;
+export type EntityMap<T> = (entity: T) => T;
 export interface EntityMapOneNum<T> {
     id: number;
     map: EntityMap<T>;
@@ -27,7 +27,7 @@ export interface EntityMapOneStr<T> {
     id: string;
     map: EntityMap<T>;
 }
-export declare type EntityMapOne<T> = EntityMapOneNum<T> | EntityMapOneStr<T>;
+export type EntityMapOne<T> = EntityMapOneNum<T> | EntityMapOneStr<T>;
 export interface EntityState<T> {
     ids: string[] | number[];
     entities: Dictionary<T>;
@@ -55,12 +55,12 @@ export interface EntityStateAdapter<T> {
     mapOne<S extends EntityState<T>>(map: EntityMapOne<T>, state: S): S;
     map<S extends EntityState<T>>(map: EntityMap<T>, state: S): S;
 }
-export interface EntitySelectors<T, V> {
+export type EntitySelectors<T, V> = {
     selectIds: (state: V) => string[] | number[];
     selectEntities: (state: V) => Dictionary<T>;
     selectAll: (state: V) => T[];
     selectTotal: (state: V) => number;
-}
+};
 export interface EntityAdapter<T> extends EntityStateAdapter<T> {
     selectId: IdSelector<T>;
     sortComparer: false | Comparer<T>;
