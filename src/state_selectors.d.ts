@@ -1,7 +1,7 @@
-import { EntityState, EntitySelectors } from './models';
+import { EntityState, EntitySelectors, MemoizedEntitySelectors } from './models';
 export declare function createSelectorsFactory<T>(): {
     getSelectors: {
         (): EntitySelectors<T, EntityState<T>>;
-        <V>(selectState: (state: V) => EntityState<T>): EntitySelectors<T, V>;
+        <V>(selectState: (state: V) => EntityState<T>): MemoizedEntitySelectors<T, V>;
     };
 };
